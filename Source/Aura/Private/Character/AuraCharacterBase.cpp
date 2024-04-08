@@ -9,6 +9,11 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+USkeletalMeshComponent* AAuraCharacterBase::GetWeaponMesh() const
+{
+	return Weapon;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

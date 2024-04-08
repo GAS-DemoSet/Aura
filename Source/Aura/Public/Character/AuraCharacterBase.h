@@ -13,6 +13,8 @@ class AURA_API AAuraCharacterBase : public ACharacter
 
 public:
 	AAuraCharacterBase();
+	
+	USkeletalMeshComponent* GetWeaponMesh() const;
 
 protected:
 	virtual void BeginPlay() override;
