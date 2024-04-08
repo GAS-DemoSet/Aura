@@ -23,4 +23,8 @@ protected:
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
 	// End IEnemyInterface
+
+protected:
+	UPROPERTY(BlueprintReadOnly)
+	bool bHighLightDebug;
 };

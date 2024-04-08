@@ -4,6 +4,7 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class IEnemyInterface;
 class UInputAction;
 class UInputMappingContext;
 struct FInputActionValue;
@@ -22,6 +23,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	virtual void PlayerTick(float DeltaTime) override;
+
+	void CursorTrace();
 
 private:
 	void Move(const FInputActionValue& InVal);
@@ -32,4 +36,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
+
+	IEnemyInterface* LastActor;
+	IEnemyInterface* ThisActor;
 };
