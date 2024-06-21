@@ -19,10 +19,12 @@ public:
 	AAuraEnemy();
 
 protected:
-	// Begin IEnemyInterface
+	//~ Begin IEnemyInterface
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
-	// End IEnemyInterface
+	//~ End IEnemyInterface
+
+	virtual void BeginPlay() override;
 
 protected:
 	UPROPERTY(BlueprintReadOnly)

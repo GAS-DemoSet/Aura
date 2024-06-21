@@ -22,7 +22,10 @@ public:
 	USkeletalMeshComponent* GetWeaponMesh() const;
 
 
+	//~ Begin IAbilitySystemInterface
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	//~ End IAbilitySystemInterface
+	
 	UAttributeSet* GetAttributeSet() const;
 	
 protected:
