@@ -25,6 +25,7 @@ protected:
 	virtual void SetupInputComponent() override;
 	virtual void PlayerTick(float DeltaTime) override;
 
+	/** 鼠标检测是否在怪物身上 */
 	void CursorTrace();
 
 private:
