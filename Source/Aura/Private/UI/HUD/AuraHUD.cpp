@@ -14,6 +14,7 @@ UOverlapWidgetController* AAuraHUD::GetOverlapWidgetController(const FWidgetCont
 	{
 		OverlapWidgetController = NewObject<UOverlapWidgetController>(this, OverlapWidgetControllerClass);
 		OverlapWidgetController->SetWidgetControllerParam(WCP);
+		OverlapWidgetController->BindCallbackToDependencies();
 	}
 	return OverlapWidgetController;
 }

@@ -45,7 +45,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParam(const FWidgetControllerParam& WCP);
 
+	/** 广播属性初始值 */
 	virtual void BroadcastInitializeValue();
+
+	/** 绑定相关属性的状态变化 */
+	virtual void BindCallbackToDependencies();
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
