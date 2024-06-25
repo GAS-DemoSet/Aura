@@ -48,15 +48,14 @@ void AAuraCharacter::InitAbilityActorInfo()
 	AttributeSet = AuraPS->GetAttributeSet();
 
 	// 以下操作仅在本地客户端有效
+	APlayerController* TempPC = Cast<APlayerController>(GetController());
+	if (TempPC)
 	{
-		APlayerController* TempPC = Cast<APlayerController>(GetController());
-		if (TempPC)
+		AAuraHUD* TempHUD = Cast<AAuraHUD>(TempPC->GetHUD());
+		if (TempHUD)
 		{
-			AAuraHUD* TempHUD = Cast<AAuraHUD>(TempPC->GetHUD());
-			if (TempHUD)
-			{
-				TempHUD->InitOverlap(TempPC, AuraPS, AbilitySystemComponent, AttributeSet);
-			}
+			// 初始化主 UI
+			TempHUD->InitOverlap(TempPC, AuraPS, AbilitySystemComponent, AttributeSet);
 		}
 	}
 }

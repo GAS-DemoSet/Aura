@@ -45,6 +45,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParam(const FWidgetControllerParam& WCP);
 
+	virtual void BroadcastInitializeValue();
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
 	TWeakObjectPtr<APlayerController> PlayerController;

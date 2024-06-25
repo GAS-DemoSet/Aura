@@ -28,6 +28,8 @@ void AAuraHUD::InitOverlap(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	const FWidgetControllerParam WCP(PC, PS, ASC, AS);
 	UOverlapWidgetController* TempWC = GetOverlapWidgetController(WCP);
 	OverlapWidget->SetWidgetController(TempWC);
+	// 相关变量和绑定初始化完成后，广播初始参数值
+	TempWC->BroadcastInitializeValue();
 	
 	OverlapWidget->AddToViewport();
 }
