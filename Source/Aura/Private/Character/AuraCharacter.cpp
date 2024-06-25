@@ -3,6 +3,7 @@
 #include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerState.h"
+#include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -45,4 +46,17 @@ void AAuraCharacter::InitAbilityActorInfo()
 	AuraPS->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPS, this);
 	AbilitySystemComponent = AuraPS->GetAbilitySystemComponent();
 	AttributeSet = AuraPS->GetAttributeSet();
+
+	// 以下操作仅在本地客户端有效
+	{
+		APlayerController* TempPC = Cast<APlayerController>(GetController());
+		if (TempPC)
+		{
+			AAuraHUD* TempHUD = Cast<AAuraHUD>(TempPC->GetHUD());
+			if (TempHUD)
+			{
+				TempHUD->InitOverlap(TempPC, AuraPS, AbilitySystemComponent, AttributeSet);
+			}
+		}
+	}
 }
