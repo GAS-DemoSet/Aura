@@ -16,11 +16,11 @@ public:
 	AAuraEffectActor();
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyEffectToTarget(AActor* InTarget, TSubclassOf<UGameplayEffect> InGameplayEffectClass);
+	void ApplyEffectToTarget(AActor* InTargetActor, TSubclassOf<UGameplayEffect> InGameplayEffectClass);
 
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Appleid Effects")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appleid Effects")
 	TSubclassOf<UGameplayEffect> InstanceGameplayEffectClass;
 };

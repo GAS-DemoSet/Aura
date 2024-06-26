@@ -9,9 +9,9 @@ AAuraEffectActor::AAuraEffectActor()
 	RootComponent = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 }
 
-void AAuraEffectActor::ApplyEffectToTarget(AActor* InTarget, TSubclassOf<UGameplayEffect> InGameplayEffectClass)
+void AAuraEffectActor::ApplyEffectToTarget(AActor* InTargetActor, TSubclassOf<UGameplayEffect> InGameplayEffectClass)
 {
-	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InTarget);
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InTargetActor);
 	if (TargetASC == nullptr)
 		return;
 
