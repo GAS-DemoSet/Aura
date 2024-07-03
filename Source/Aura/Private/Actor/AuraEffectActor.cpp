@@ -26,3 +26,21 @@ void AAuraEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+void AAuraEffectActor::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+}
+
+void AAuraEffectActor::NotifyActorEndOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorEndOverlap(OtherActor);
+}
+
+void AAuraEffectActor::OnOverlap(AActor* OtherActor)
+{
+}
+
+void AAuraEffectActor::OnEndOverlap(AActor* OtherActor)
+{
+}
