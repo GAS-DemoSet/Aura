@@ -39,8 +39,24 @@ void AAuraEffectActor::NotifyActorEndOverlap(AActor* OtherActor)
 
 void AAuraEffectActor::OnOverlap(AActor* OtherActor)
 {
+	if (InstanceEffectApplicationPolity == EEffectApplicationPolity::ApplyOnOverlap)
+	{
+		ApplyEffectToTarget(OtherActor, InstanceGameplayEffectClass);
+	}
+	if (DurationEffectApplicationPolity == EEffectApplicationPolity::ApplyOnOverlap)
+	{
+		ApplyEffectToTarget(OtherActor, DurationGameplayEffectClass);
+	}
 }
 
 void AAuraEffectActor::OnEndOverlap(AActor* OtherActor)
 {
+	if (InstanceEffectApplicationPolity == EEffectApplicationPolity::ApplyEndOverlap)
+	{
+		ApplyEffectToTarget(OtherActor, InstanceGameplayEffectClass);
+	}
+	if (DurationEffectApplicationPolity == EEffectApplicationPolity::ApplyEndOverlap)
+	{
+		ApplyEffectToTarget(OtherActor, DurationGameplayEffectClass);
+	}
 }
