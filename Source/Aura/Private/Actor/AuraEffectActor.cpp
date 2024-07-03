@@ -11,6 +11,7 @@ AAuraEffectActor::AAuraEffectActor()
 
 void AAuraEffectActor::ApplyEffectToTarget(AActor* InTargetActor, TSubclassOf<UGameplayEffect> InGameplayEffectClass)
 {
+	// 玩家
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InTargetActor);
 	if (TargetASC == nullptr)
 		return;
@@ -19,7 +20,13 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* InTargetActor, TSubclassOf<UG
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 	FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(InGameplayEffectClass, 1.f, EffectContextHandle);
-	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+	FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+
+	const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite;
+	if (bIsInfinite && InfiniteEffectRemovalPolity == EEffectRemovalPolity::RemoveEndOverlap)
+	{
+		ActiveEffectHandles.Add(ActiveEffectHandle, TargetASC);
+	}
 }
 
 void AAuraEffectActor::BeginPlay()
@@ -47,6 +54,10 @@ void AAuraEffectActor::OnOverlap(AActor* OtherActor)
 	{
 		ApplyEffectToTarget(OtherActor, DurationGameplayEffectClass);
 	}
+	if (InfiniteEffectApplicationPolity == EEffectApplicationPolity::ApplyOnOverlap)
+	{
+		ApplyEffectToTarget(OtherActor, InfiniteGameplayEffectClass);
+	}
 }
 
 void AAuraEffectActor::OnEndOverlap(AActor* OtherActor)
@@ -58,5 +69,26 @@ void AAuraEffectActor::OnEndOverlap(AActor* OtherActor)
 	if (DurationEffectApplicationPolity == EEffectApplicationPolity::ApplyEndOverlap)
 	{
 		ApplyEffectToTarget(OtherActor, DurationGameplayEffectClass);
+	}
+	if (InfiniteEffectApplicationPolity == EEffectApplicationPolity::ApplyEndOverlap)
+	{
+		ApplyEffectToTarget(OtherActor, InfiniteGameplayEffectClass);
+	}
+
+	if (InfiniteEffectRemovalPolity == EEffectRemovalPolity::RemoveEndOverlap)
+	{
+		// 玩家
+		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor);
+		if (!TargetASC)
+			return;
+
+		for (auto Iter = ActiveEffectHandles.CreateIterator(); Iter; ++Iter)
+		{
+			if (Iter->Value == TargetASC)
+			{
+				TargetASC->RemoveActiveGameplayEffect(Iter.Key(), 1);
+				Iter.RemoveCurrent();
+			}
+		}
 	}
 }

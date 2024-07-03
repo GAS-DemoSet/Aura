@@ -1,10 +1,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
 #include "GameFramework/Actor.h"
 #include "AuraEffectActor.generated.h"
 
 class UGameplayEffect;
+class UAbilitySystemComponent;
 
 UENUM(BlueprintType)
 enum class EEffectApplicationPolity : uint8
@@ -40,9 +42,12 @@ protected:
 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
 	//~ End AActor Interface
 
+	UFUNCTION(BlueprintCallable)
 	void OnOverlap(AActor* OtherActor);
+	UFUNCTION(BlueprintCallable)
 	void OnEndOverlap(AActor* OtherActor);
 
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appleid Effects")
 	bool bDestroyOnEffectRemoval = false;
 	
@@ -65,4 +70,6 @@ protected:
 	EEffectApplicationPolity InfiniteEffectApplicationPolity = EEffectApplicationPolity::DoNotApply;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appleid Effects|Infinite")
 	EEffectRemovalPolity InfiniteEffectRemovalPolity = EEffectRemovalPolity::RemoveEndOverlap;
+
+	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
 };
