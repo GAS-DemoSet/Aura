@@ -51,7 +51,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 	APlayerController* TempPC = Cast<APlayerController>(GetController());
 	if (TempPC)
 	{
-		AAuraHUD* TempHUD = Cast<AAuraHUD>(TempPC->GetHUD());
+		AAuraHUD* TempHUD = Cast<AAuraHUD>(TempPC->GetHUD());//服务器不存在 HUD
 		if (TempHUD)
 		{
 			// 初始化主 UI
