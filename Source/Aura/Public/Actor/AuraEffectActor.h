@@ -53,7 +53,7 @@ protected:
 
 	/** 效果等级 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appleid Effects")
-	float ActorLevel = 1.f;
+	float ActorLevel = 1.0f;
 	
 	/** 立即执行一次效果 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appleid Effects|Instance")
