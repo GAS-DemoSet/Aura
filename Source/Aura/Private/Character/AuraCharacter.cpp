@@ -47,6 +47,10 @@ void AAuraCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent = AuraPS->GetAbilitySystemComponent();
 	AttributeSet = AuraPS->GetAttributeSet();
 
+	// 获取当前 ASC 得所有属性集
+	// TArray<UAttributeSet*> T = AbilitySystemComponent->GetSpawnedAttributes();
+	// UE_LOG(LogTemp, Warning, TEXT("AAuraCharacter:: %i"), T.Num());
+
 	// 以下操作仅在本地客户端有效
 	APlayerController* TempPC = Cast<APlayerController>(GetController());
 	if (TempPC)
