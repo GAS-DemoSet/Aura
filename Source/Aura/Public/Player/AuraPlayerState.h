@@ -7,6 +7,8 @@
 #include "GameFramework/PlayerState.h"
 #include "AuraPlayerState.generated.h"
 
+class UAuraAttributeSet;
+class UAuraAbilitySystemComponent;
 class UAbilitySystemComponent;
 class UAttributeSet;
 
@@ -25,14 +27,15 @@ public:
 
 	//~ Begin IAbilitySystemInterface
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAuraAbilitySystemComponent* GetAuraAbilitySystemComponent() const;
 	//~ End IAbilitySystemInterface
 	
-	UAttributeSet* GetAttributeSet() const;
+	UAuraAttributeSet* GetAuraAttributeSet() const;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Attribute")
-	TObjectPtr<UAttributeSet> AttributeSet;
+	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
 };

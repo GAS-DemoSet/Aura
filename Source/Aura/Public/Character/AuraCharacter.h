@@ -22,6 +22,7 @@ public:
 	//~ End APawn Interface
 
 private:
-	// 初始化 ASC 信息
-	void InitAbilityActorInfo();
+	//~ Begin AAuraCharacterBase Interface
+	virtual void InitAbilityActorInfo() override;
+	//~ End AAuraCharacterBase Interface
 };

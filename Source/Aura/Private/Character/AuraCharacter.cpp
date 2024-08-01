@@ -1,6 +1,7 @@
 #include "Character/AuraCharacter.h"
 
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerState.h"
 #include "UI/HUD/AuraHUD.h"
@@ -44,8 +45,9 @@ void AAuraCharacter::InitAbilityActorInfo()
 	check(AuraPS && AuraPS->GetAbilitySystemComponent());
 	
 	AuraPS->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPS, this);
-	AbilitySystemComponent = AuraPS->GetAbilitySystemComponent();
-	AttributeSet = AuraPS->GetAttributeSet();
+	AuraAbilitySystemComponent = AuraPS->GetAuraAbilitySystemComponent();
+	AuraAbilitySystemComponent->AbilityActorInfoSet();
+	AuraAttributeSet = AuraPS->GetAuraAttributeSet();
 
 	// 获取当前 ASC 得所有属性集
 	// TArray<UAttributeSet*> T = AbilitySystemComponent->GetSpawnedAttributes();
@@ -59,7 +61,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 		if (TempHUD)
 		{
 			// 初始化主 UI
-			TempHUD->InitOverlap(TempPC, AuraPS, AbilitySystemComponent, AttributeSet);
+			TempHUD->InitOverlap(TempPC, AuraPS, AuraAbilitySystemComponent, AuraAttributeSet);
 		}
 	}
 }

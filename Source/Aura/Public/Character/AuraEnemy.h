@@ -24,6 +24,10 @@ protected:
 	virtual void UnHighLightActor() override;
 	//~ End IEnemyInterface
 
+	//~ Begin AAuraCharacterBase Interface
+	virtual void InitAbilityActorInfo() override;
+	//~ End AAuraCharacterBase Interface
+
 	virtual void BeginPlay() override;
 
 protected:

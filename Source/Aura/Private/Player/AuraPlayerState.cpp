@@ -12,20 +12,25 @@ AAuraPlayerState::AAuraPlayerState()
 	NetUpdateFrequency = 100.f;
 
 	// 构建 ASC 组件
-	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
-	AbilitySystemComponent->SetIsReplicated(true);
-	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+	AuraAbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+	AuraAbilitySystemComponent->SetIsReplicated(true);
+	AuraAbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
 	// 构建 AS 属性集
-	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+	AuraAttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 UAbilitySystemComponent* AAuraPlayerState::GetAbilitySystemComponent() const
 {
-	return AbilitySystemComponent;
+	return AuraAbilitySystemComponent;
 }
 
-UAttributeSet* AAuraPlayerState::GetAttributeSet() const
+UAuraAbilitySystemComponent* AAuraPlayerState::GetAuraAbilitySystemComponent() const
 {
-	return AttributeSet;
+	return AuraAbilitySystemComponent;
+}
+
+UAuraAttributeSet* AAuraPlayerState::GetAuraAttributeSet() const
+{
+	return AuraAttributeSet;
 }

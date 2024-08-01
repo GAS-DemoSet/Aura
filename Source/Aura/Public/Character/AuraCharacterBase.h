@@ -5,6 +5,8 @@
 #include "AbilitySystemInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UAuraAttributeSet;
+class UAuraAbilitySystemComponent;
 class USkeletalMeshComponent;
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -24,9 +26,14 @@ public:
 
 	//~ Begin IAbilitySystemInterface
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAuraAbilitySystemComponent* GetAuraAbilitySystemComponent() const;
 	//~ End IAbilitySystemInterface
 	
-	UAttributeSet* GetAttributeSet() const;
+	UAuraAttributeSet* GetAuraAttributeSet() const;
+
+protected:
+	/** 初始化 ASC 信息 */
+	virtual void InitAbilityActorInfo();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -35,8 +42,8 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")
-	TObjectPtr<UAttributeSet> AttributeSet;
+	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
 };

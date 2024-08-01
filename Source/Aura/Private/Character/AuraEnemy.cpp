@@ -9,12 +9,12 @@ AAuraEnemy::AAuraEnemy()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 
 	// 构建 ASC 组件
-	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
-	AbilitySystemComponent->SetIsReplicated(true);
-	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	AuraAbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+	AuraAbilitySystemComponent->SetIsReplicated(true);
+	AuraAbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	// 构建 AS 属性集
-	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+	AuraAttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::HighLightActor()
@@ -31,11 +31,19 @@ void AAuraEnemy::UnHighLightActor()
 	GetWeaponMesh()->SetRenderCustomDepth(false);
 }
 
+void AAuraEnemy::InitAbilityActorInfo()
+{
+	Super::InitAbilityActorInfo();
+
+	// 初始话 ASC 组件信息
+	check(AuraAbilitySystemComponent != nullptr);
+	AuraAbilitySystemComponent->InitAbilityActorInfo(this, this);
+	AuraAbilitySystemComponent->AbilityActorInfoSet();
+}
+
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// 初始话 ASC 组件信息
-	check(AbilitySystemComponent != nullptr);
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	InitAbilityActorInfo();
 }

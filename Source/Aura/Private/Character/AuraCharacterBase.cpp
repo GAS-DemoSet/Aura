@@ -1,4 +1,5 @@
 #include "Character/AuraCharacterBase.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -16,12 +17,21 @@ USkeletalMeshComponent* AAuraCharacterBase::GetWeaponMesh() const
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 {
-	return AbilitySystemComponent;
+	return AuraAbilitySystemComponent;
 }
 
-UAttributeSet* AAuraCharacterBase::GetAttributeSet() const
+UAuraAbilitySystemComponent* AAuraCharacterBase::GetAuraAbilitySystemComponent() const
 {
-	return AttributeSet;
+	return AuraAbilitySystemComponent;
+}
+
+UAuraAttributeSet* AAuraCharacterBase::GetAuraAttributeSet() const
+{
+	return AuraAttributeSet;
+}
+
+void AAuraCharacterBase::InitAbilityActorInfo()
+{
 }
 
 void AAuraCharacterBase::BeginPlay()
