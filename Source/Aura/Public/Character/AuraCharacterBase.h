@@ -23,7 +23,6 @@ public:
 	
 	USkeletalMeshComponent* GetWeaponMesh() const;
 
-
 	//~ Begin IAbilitySystemInterface
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAuraAbilitySystemComponent* GetAuraAbilitySystemComponent() const;
@@ -34,16 +33,21 @@ public:
 protected:
 	/** 初始化 ASC 信息 */
 	virtual void InitAbilityActorInfo();
+
+	//~ Begin ActorInterface
+	virtual void BeginPlay() override;
+	//~ Begin EndInterface
 	
 protected:
-	virtual void BeginPlay() override;
-
+	/** 武器模型 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	/** ASC */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")
 	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 
+	/** ASC 属性集 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")
 	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
 };
