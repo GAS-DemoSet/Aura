@@ -14,6 +14,8 @@ void AAuraPlayerController::BeginPlay()
 
 	// 本地权威
 	//if (GetLocalRole() == ROLE_AutonomousProxy)
+	// 只有本地权威用户拥有增强输入组件
+	// 程序开始 PlayerController 注册输入事件
 	UEnhancedInputLocalPlayerSubsystem* LocalInputSub = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	if (LocalInputSub)
 	{
