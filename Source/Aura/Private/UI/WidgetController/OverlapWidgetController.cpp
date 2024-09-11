@@ -3,6 +3,7 @@
 
 #include "UI/WidgetController/OverlapWidgetController.h"
 
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
 void UOverlapWidgetController::BroadcastInitializeValue()
@@ -24,6 +25,18 @@ void UOverlapWidgetController::BindCallbackToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAS->GetMaxHealthAttribute()).AddUObject(this, &UOverlapWidgetController::EventOnMaxHealthChange);
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAS->GetManaAttribute()).AddUObject(this, &UOverlapWidgetController::EventOnManaChange);
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAS->GetMaxManaAttribute()).AddUObject(this, &UOverlapWidgetController::EventOnMaxManaChange);
+
+	UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	AuraASC->EffectAssetTagsDelegate.AddLambda(
+	[](const FGameplayTagContainer& AssetTags)
+	{
+		for (const FGameplayTag Tag : AssetTags)
+		{
+			// TODO: Broadcast the tag to the Widget Controller
+			const FString Msg = FString::Printf(TEXT("EffectApplied:: GE Tag:%s"), *Tag.ToString());
+			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Black, Msg);
+		}
+	});
 }
 
 void UOverlapWidgetController::EventOnHealthChange(const FOnAttributeChangeData& Data) const

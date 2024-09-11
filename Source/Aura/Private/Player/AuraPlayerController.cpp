@@ -13,11 +13,11 @@ void AAuraPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	// 本地权威
-	if (GetLocalRole() == ROLE_AutonomousProxy)
+	//if (GetLocalRole() == ROLE_AutonomousProxy)
+	UEnhancedInputLocalPlayerSubsystem* LocalInputSub = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (LocalInputSub)
 	{
 		check(AuraContext);
-		UEnhancedInputLocalPlayerSubsystem* LocalInputSub = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-		check(LocalInputSub);
 		LocalInputSub->AddMappingContext(AuraContext, 0);
 
 		bShowMouseCursor = true;

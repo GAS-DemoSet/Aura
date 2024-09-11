@@ -6,6 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "AuraAbilitySystemComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsDelegate, const FGameplayTagContainer& /* AssetTags */);
+
 /**
  * 
  */
@@ -19,6 +21,7 @@ public:
 
 	void AbilityActorInfoSet();
 
+	FEffectAssetTagsDelegate EffectAssetTagsDelegate;
 protected:
 	void EffectApplied(UAbilitySystemComponent* InAbilitySystemComponent, const FGameplayEffectSpec& InEffectSpec, FActiveGameplayEffectHandle InActiveEffectHandle);
 };
