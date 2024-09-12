@@ -30,13 +30,20 @@ void UOverlapWidgetController::BindCallbackToDependencies()
 	AuraASC->EffectAssetTagsDelegate.AddLambda(
 	[this](const FGameplayTagContainer& AssetTags)
 	{
-		for (const FGameplayTag Tag : AssetTags)
+		for (const FGameplayTag& Tag : AssetTags)
 		{
 			// TODO: Broadcast the tag to the Widget Controller
-			const FString Msg = FString::Printf(TEXT("EffectApplied:: GE Tag:%s"), *Tag.ToString());
-			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Black, Msg);
+			// const FString Msg = FString::Printf(TEXT("EffectApplied:: GE Tag:%s"), *Tag.ToString());
+			// GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Black, Msg);
+			
+			FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
 
-			FUIWidgetRow* WidgetRow = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+			// "A.1".MatchesTag("A") will return True, "A".MatchesTag("A.1") will return False
+			if (Tag.MatchesTag(MessageTag))
+			{
+				FUIWidgetRow* WidgetRow = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+				OnMessageWidgetRowSignature.Broadcast(*WidgetRow);
+			}
 		}
 	});
 }
