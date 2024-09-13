@@ -24,15 +24,11 @@ struct FUIWidgetRow : public FTableRowBase
 	TSubclassOf<UAuraUserWidget> MessageWidget = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UTexture* Image = nullptr;
+	UTexture2D* Image = nullptr;
 };
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangeSignature, float, NewHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangeSignature, float, NewMaxHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangeSignature, float, NewMana);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangeSignature, float, NewMaxMana);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMessageWidgetRowSignature, const FUIWidgetRow&, Row);
 
 /**
@@ -56,24 +52,18 @@ protected:
 		return InDataTable->FindRow<T>(InTag.GetTagName(), TEXT(""));
 	}
 
-private:
-	void EventOnHealthChange(const FOnAttributeChangeData& Data) const;
-	void EventOnMaxHealthChange(const FOnAttributeChangeData& Data) const;
-	void EventOnManaChange(const FOnAttributeChangeData& Data) const;
-	void EventOnMaxManaChange(const FOnAttributeChangeData& Data) const;
-
 public:
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
-	FOnHealthChangeSignature OnHealthChange;
+	FOnAttributeChangedSignature OnHealthChange;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
-	FOnMaxHealthChangeSignature OnMaxHealthChange;
+	FOnAttributeChangedSignature OnMaxHealthChange;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
-	FOnManaChangeSignature OnManaChange;
+	FOnAttributeChangedSignature OnManaChange;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
-	FOnMaxManaChangeSignature OnMaxManaChange;
+	FOnAttributeChangedSignature OnMaxManaChange;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Message")
 	FOnMessageWidgetRowSignature OnMessageWidgetRowSignature;
