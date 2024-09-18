@@ -28,17 +28,18 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
+	// 这个函数体内执行更改得是 CurrentValue
 	Super::PreAttributeChange(Attribute, NewValue);
 
 	if (Attribute == GetHealthAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
-		//UE_LOG(LogTemp, Warning, TEXT("Health=%f"), NewValue);
+		// UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PreAttributeChange:: Health=%f"), NewValue);
 	}
 	if (Attribute == GetManaAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxMana());
-		//UE_LOG(LogTemp, Warning, TEXT("Mana=%f"), NewValue);
+		// UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PreAttributeChange:: Mana=%f"), NewValue);
 	}
 }
 
@@ -46,47 +47,17 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 {
 	Super::PostGameplayEffectExecute(Data);
 
-	/*
-	// if (Data.EvaluatedData.Attribute == GetHealthAttribute())
-	// {
-	// 	UE_LOG(LogTemp, Warning, TEXT("Health From GetHealth()=%f"), GetHealth());
-	// 	// 当前效果作用值
-	// 	UE_LOG(LogTemp, Warning, TEXT("Magnitude=%f"), Data.EvaluatedData.Magnitude);
-	// }
-
-	// // 获取源信息方式
-	// const FGameplayEffectContextHandle EffectContextHandle = Data.EffectSpec.GetContext();
-	// const UAbilitySystemComponent *SourceASC = EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
-	// if (IsValid(SourceASC) && SourceASC->AbilityActorInfo.IsValid() && SourceASC->AbilityActorInfo->AvatarActor.IsValid())
-	// {
-	// 	AActor* SourceAvatarActor = SourceASC->AbilityActorInfo->AvatarActor.Get();
-	// 	const AController* SourceController = SourceASC->AbilityActorInfo->PlayerController.Get();
-	// 	if (SourceController == nullptr && SourceAvatarActor != nullptr)
-	// 	{
-	// 		if (APawn* TempPawn = Cast<APawn>(SourceAvatarActor))
-	// 		{
-	// 			SourceController = TempPawn->GetController();
-	// 		}
-	// 	}
-	// 	if (SourceController != nullptr)
-	// 	{
-	// 		ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
-	// 	}
-	// }
-	//
-	// // 获取目标信息方式
-	// if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
-	// {
-	// 	AActor* TargetAvatarActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-	// 	AController* TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
-	// 	ACharacter* TargetCharacter = Cast<ACharacter>(TargetAvatarActor);
-	// 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetAvatarActor);
-	// }
-	*/
-
 	FEffectProperties EffectPro;
 	SetEffectProperties(Data, EffectPro);
-	
+
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		// GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, FString::Printf(TEXT("UAuraAttributeSet::PostGameplayEffectExecute:: Health:: %f"), GetHealth()));
+		// UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PostGameplayEffectExecute:: Base=%f"), Health.GetBaseValue());
+		// UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PostGameplayEffectExecute:: Current=%f"), Health.GetCurrentValue());
+		// 需要再次修正 BaseValue
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+	}
 }
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
@@ -111,6 +82,7 @@ void UAuraAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) 
 
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectPro) const
 {
+	// 获取原属性和目标属性
 	// 获取源信息方式
 	EffectPro.EffectContextHandle = Data.EffectSpec.GetContext();
 	EffectPro.SourceASC = EffectPro.EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
