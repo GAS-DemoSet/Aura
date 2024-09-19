@@ -5,6 +5,7 @@
 #include "AbilitySystemInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UGameplayEffect;
 class UAuraAttributeSet;
 class UAuraAbilitySystemComponent;
 class USkeletalMeshComponent;
@@ -34,6 +35,9 @@ protected:
 	/** 初始化 ASC 信息 */
 	virtual void InitAbilityActorInfo();
 
+	/** 初始化 AS 属性 */
+	virtual void InitializePrimaryAttributes() const;
+
 	//~ Begin ActorInterface
 	virtual void BeginPlay() override;
 	//~ Begin EndInterface
@@ -50,4 +54,8 @@ protected:
 	/** ASC 属性集 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")
 	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
+
+	/** AS 参数默认属性值 */
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
 };

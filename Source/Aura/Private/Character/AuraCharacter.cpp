@@ -64,4 +64,6 @@ void AAuraCharacter::InitAbilityActorInfo()
 			TempHUD->InitOverlap(TempPC, AuraPS, AuraAbilitySystemComponent, AuraAttributeSet);
 		}
 	}
+
+	InitializePrimaryAttributes();
 }
