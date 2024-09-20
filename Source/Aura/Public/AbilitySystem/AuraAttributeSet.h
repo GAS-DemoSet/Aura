@@ -189,29 +189,29 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingXP);
 
 public:
+	/*
+	 * Primary Attribute
+	 */
 	UFUNCTION()
-	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
-
-	UFUNCTION()
-	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
-
-	UFUNCTION()
-	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
-
-	UFUNCTION()
-	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
-
-	UFUNCTION()
-	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
+	void OnRep_Strength(const FGameplayAttributeData& OldValue) const;
 	
 	UFUNCTION()
-	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
+	void OnRep_Intelligence(const FGameplayAttributeData& OldValue) const;
 
 	UFUNCTION()
-	void OnRep_Resilience(const FGameplayAttributeData& OldResilience) const;
+	void OnRep_Resilience(const FGameplayAttributeData& OldValue) const;
 
 	UFUNCTION()
-	void OnRep_Vigor(const FGameplayAttributeData& OldVigor) const;
+	void OnRep_Vigor(const FGameplayAttributeData& OldValue) const;
+
+	/*
+	 * Secondary Attributes
+	 */
+	UFUNCTION()
+	void OnRep_MaxHealth(const FGameplayAttributeData& OldValue) const;
+	
+	UFUNCTION()
+	void OnRep_MaxMana(const FGameplayAttributeData& OldValue) const;
 
 	UFUNCTION()
 	void OnRep_Armor(const FGameplayAttributeData& OldValue) const;
@@ -236,7 +236,10 @@ public:
 
 	UFUNCTION()
 	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldValue) const;
-	
+
+	/*
+	 * Resistance Attributes
+	 */
 	UFUNCTION()
 	void OnRep_FireResistance(const FGameplayAttributeData& OldValue) const;
 
@@ -248,6 +251,15 @@ public:
 	
 	UFUNCTION()
 	void OnRep_PhysicalResistance(const FGameplayAttributeData& OldValue) const;
+
+	/*
+	 * Vital Attribute
+	 */
+	UFUNCTION()
+	void OnRep_Health(const FGameplayAttributeData& OldValue) const;
+
+	UFUNCTION()
+	void OnRep_Mana(const FGameplayAttributeData& OldValue) const;
 
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectPro) const;

@@ -1,5 +1,6 @@
 #include "Character/AuraCharacterBase.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Log/AuraLog.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -34,13 +35,31 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }
 
-void AAuraCharacterBase::InitializePrimaryAttributes() const
+void AAuraCharacterBase::InitializeDefaultAttributes() const
 {
-	check(IsValid(GetAbilitySystemComponent()))
-	check(DefaultPrimaryAttributes)
-	FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
-	FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.f, ContextHandle);
-	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
+	ApplyEffectToSelf(DefaultPrimaryAttributes);
+	ApplyEffectToSelf(DefaultSecondaryAttributes);
+}
+
+void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GE, float Level) const
+{
+	if (UAbilitySystemComponent* ASC = GetAbilitySystemComponent())
+	{
+		if (GE)
+		{
+			FGameplayEffectContextHandle ContextHandle = ASC->MakeEffectContext();
+			FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(GE, Level, ContextHandle);
+			ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), ASC);
+		}
+		else
+		{
+			UE_LOG(AuraLog, Warning, TEXT("AAuraCharacterBase::ApplyEffectToSelf:: GE is nullptr!!!"));
+		}
+	}
+	else
+	{
+		UE_LOG(AuraLog, Warning, TEXT("AAuraCharacterBase::ApplyEffectToSelf:: ASC is nullptr!!!"));
+	}
 }
 
 void AAuraCharacterBase::BeginPlay()

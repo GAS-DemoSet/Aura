@@ -36,8 +36,11 @@ protected:
 	virtual void InitAbilityActorInfo();
 
 	/** 初始化 AS 属性 */
-	virtual void InitializePrimaryAttributes() const;
+	void InitializeDefaultAttributes() const;
 
+	/** 应用 GE 效果到自身 */
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GE, float Level = 1.f) const;
+	
 	//~ Begin ActorInterface
 	virtual void BeginPlay() override;
 	//~ Begin EndInterface
@@ -58,4 +61,8 @@ protected:
 	/** AS 参数默认属性值 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+
+	/** AS 参数默认属性值 */
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
 };
