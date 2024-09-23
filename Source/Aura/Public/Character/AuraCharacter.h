@@ -21,6 +21,10 @@ public:
 	virtual void OnRep_PlayerState() override;
 	//~ End APawn Interface
 
+	//~ Begin ICombatInterface
+	virtual int32 GetPlayerLevel() override;
+	//~ End ICombatInterface
+
 private:
 	//~ Begin AAuraCharacterBase Interface
 	virtual void InitAbilityActorInfo() override;

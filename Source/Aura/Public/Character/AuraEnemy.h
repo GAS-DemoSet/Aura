@@ -28,9 +28,16 @@ protected:
 	virtual void InitAbilityActorInfo() override;
 	//~ End AAuraCharacterBase Interface
 
+	//~ Begin ICombatInterface
+	virtual int32 GetPlayerLevel() override;
+	//~ End ICombatInterface
+
 	virtual void BeginPlay() override;
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighLightDebug;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Class Defaults")
+	int32 Level = 1;
 };
