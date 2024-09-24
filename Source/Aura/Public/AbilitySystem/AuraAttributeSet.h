@@ -67,6 +67,7 @@ public:
 
 	/*
 	 * Primary Attribute
+	 * 以下为主要参数，通过GE进行初始化（/Game/Blueprints/AbilitySystem/GameplayEffects/DefaultAttributes/GE_AuraPrimaryAttributes.GE_AuraPrimaryAttributes）
 	 */
 	/** 力量 */
 	UPROPERTY(BlueprintReadOnly, Category = "Primary Attribute", ReplicatedUsing = OnRep_Strength)
@@ -90,6 +91,7 @@ public:
 
 	/*
 	 * Secondary Attributes
+	 * 以下为次要参数，通过GE进行初始化（/Game/Blueprints/AbilitySystem/GameplayEffects/DefaultAttributes/GE_AuraSecondaryAttributes.GE_AuraSecondaryAttributes）
 	 */
 	/** 护甲值 */
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Secondary Attributes")
@@ -166,6 +168,7 @@ public:
 
 	/*
 	 * Vital Attribute
+	 * 初始化类（Game/Blueprints/AbilitySystem/GameplayEffects/DefaultAttributes/GE_AuraVitalAttributes.GE_AuraVitalAttributes）
 	 */
 	/** 当前血量 */
 	UPROPERTY(BlueprintReadOnly, Category = "Vital Attribute", ReplicatedUsing = OnRep_Health)
