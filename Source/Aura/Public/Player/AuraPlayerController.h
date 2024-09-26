@@ -5,6 +5,7 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class UAuraAbilitySystemComponent;
 class UAuraInputConfig;
 class IEnemyInterface;
 class UInputAction;
@@ -21,6 +22,8 @@ class AURA_API AAuraPlayerController : public APlayerController
 
 public:
 	AAuraPlayerController();
+
+	UAuraAbilitySystemComponent* GetASC();
 
 protected:
 	virtual void BeginPlay() override;
@@ -46,6 +49,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
+
+	UPROPERTY(Transient)
+	TWeakObjectPtr<UAuraAbilitySystemComponent> ASC;
 
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;

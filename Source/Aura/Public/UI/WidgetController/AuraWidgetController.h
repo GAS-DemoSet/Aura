@@ -53,15 +53,15 @@ public:
 	virtual void BindCallbackToDependencies() {}
 
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController", Transient)
 	TWeakObjectPtr<APlayerController> PlayerController;
 
-	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController", Transient)
 	TWeakObjectPtr<APlayerState> PlayerState;
 
-	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController", Transient)
 	TWeakObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
-	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController", Transient)
 	TWeakObjectPtr<UAttributeSet> AttributeSet;
 };
