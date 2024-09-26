@@ -11,9 +11,8 @@ void UAttributeMenuWidgetController::BroadcastInitializeValue()
 {
 	Super::BroadcastInitializeValue();
 
-	UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet);
+	UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet.Get());
 
-	checkf(AttributeInfo, TEXT("UAttributeMenuWidgetController::BroadcastInitializeValue():: AttributeInfo is nullptr!!!"));
 	// FAuraAttributeInfo StrengthInfo = AttributeInfo->FindAttributeInfoForTag(FAuraGameplayTags::Get()->Attributes_Primary_Strength);
 	// StrengthInfo.AttributeValue = AuraAS->GetStrength();
 	// OnAuraAttributeInfoDelegate.Broadcast(StrengthInfo);
@@ -21,15 +20,33 @@ void UAttributeMenuWidgetController::BroadcastInitializeValue()
 	// 广播属性初始值
 	for (auto& Pair : AuraAS->TagsToAttributes)
 	{
-		FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Pair.Key);
-
-		// 通过执行返回代理获取属性访问器进行取值
-		Info.AttributeValue = Pair.Value().GetNumericValue(AuraAS);
-		OnAuraAttributeInfoDelegate.Broadcast(Info);
+		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
 }
 
 void UAttributeMenuWidgetController::BindCallbackToDependencies()
 {
 	Super::BindCallbackToDependencies();
+
+	const UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet.Get());
+
+	for (auto& Pair: AuraAS->TagsToAttributes)
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
+		[this, Pair](const FOnAttributeChangeData& Data)
+		{
+			this->BroadcastAttributeInfo(Pair.Key, Pair.Value());
+		}
+	);
+	}
+}
+
+void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const
+{
+	checkf(AttributeInfo, TEXT("UAttributeMenuWidgetController::BroadcastInitializeValue():: AttributeInfo is nullptr!!!"));
+	FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(AttributeTag);
+
+	// 通过执行返回代理获取属性访问器进行取值
+	Info.AttributeValue = Attribute.GetNumericValue(AttributeSet.Get());
+	OnAuraAttributeInfoDelegate.Broadcast(Info);
 }
