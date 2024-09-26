@@ -56,6 +56,17 @@ class AURA_API UAuraAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
+	// typedef TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFunPtr;
+	// typedef FGameplayAttribute(*FAttributeFunPtr)();
+
+	template<class T>
+	using TAttributeFunPtr = T(*)();
+	// template<class T, class... Args>
+	// using TAttributeFunPtr = T(*)(Args...);
+
+	// template<class T>
+	// using TAttributeFunPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
 public:
 	UAuraAttributeSet();
 
@@ -65,6 +76,14 @@ public:
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 	//~ End UAttributeSet Interface
 
+public:
+	/** 注册访问属性的返回代理 */
+	TMap<FGameplayTag, TAttributeFunPtr<FGameplayAttribute>> TagsToAttributes;
+	//TMap<FGameplayTag, FAttributeFunPtr> TagsToAttributes;
+	//TMap<FGameplayTag, TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr> TagsToAttributes;
+	//TMap<FGameplayTag, FGameplayAttribute(*)()> TagsToAttributes;
+	//TMap<FGameplayTag, FGameplayAttribute> TagsToAttributes;
+	
 	/*
 	 * Primary Attribute
 	 * 以下为主要参数，通过GE进行初始化（/Game/Blueprints/AbilitySystem/GameplayEffects/DefaultAttributes/GE_AuraPrimaryAttributes.GE_AuraPrimaryAttributes）

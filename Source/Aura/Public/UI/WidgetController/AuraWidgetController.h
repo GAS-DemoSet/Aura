@@ -42,10 +42,11 @@ class AURA_API UAuraWidgetController : public UObject
 {
 	GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "WidgetController")
 	void SetWidgetControllerParam(const FWidgetControllerParam& WCP);
 
 	/** 广播属性初始值 */
+	UFUNCTION(BlueprintCallable, Category = "WidgetController")
 	virtual void BroadcastInitializeValue() {}
 
 	/** 绑定相关属性的状态变化 */

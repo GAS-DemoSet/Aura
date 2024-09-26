@@ -6,7 +6,7 @@ TSharedPtr<FAuraGameplayTags> FAuraGameplayTags::GameplayTags = nullptr;
 
 TSharedPtr<FAuraGameplayTags> FAuraGameplayTags::Get()
 {
-	if (!GameplayTags)
+	if (!GameplayTags.IsValid())
 	{
 		GameplayTags = MakeShareable(new(FAuraGameplayTags));
 	}
@@ -16,7 +16,7 @@ TSharedPtr<FAuraGameplayTags> FAuraGameplayTags::Get()
 
 void FAuraGameplayTags::Clear()
 {
-	if (GameplayTags)
+	if (GameplayTags.IsValid())
 	{
 		GameplayTags->UnInitializeNativeGameplayTags();
 		GameplayTags.Reset();
