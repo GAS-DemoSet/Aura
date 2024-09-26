@@ -24,6 +24,7 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 
 	// 在服务器初始化 ASC 信息
 	InitAbilityActorInfo();
+	AddCharacterAbilities();
 }
 
 void AAuraCharacter::UnPossessed()

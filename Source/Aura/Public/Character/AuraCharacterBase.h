@@ -6,6 +6,7 @@
 #include "Interface/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UGameplayAbility;
 class UGameplayEffect;
 class UAuraAttributeSet;
 class UAuraAbilitySystemComponent;
@@ -42,6 +43,9 @@ protected:
 
 	/** 应用 GE 效果到自身 */
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GE, float Level = 1.f) const;
+
+	/** 添加玩家能力集 GA */
+	void AddCharacterAbilities();
 	
 	//~ Begin ActorInterface
 	virtual void BeginPlay() override;
@@ -71,4 +75,8 @@ protected:
 	/** AS 参数默认属性值 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category="Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };

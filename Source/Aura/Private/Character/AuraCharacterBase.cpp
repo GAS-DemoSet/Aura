@@ -64,6 +64,15 @@ void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GE, floa
 	}
 }
 
+void AAuraCharacterBase::AddCharacterAbilities()
+{
+	// 
+	if (!HasAuthority()) return;
+
+	checkf(AuraAbilitySystemComponent, TEXT("Error: AAuraCharacterBase::AddCharacterAbilities:: The ASC component is not initialized!!!"));
+	AuraAbilitySystemComponent->AddCharacterAbilities(StartupAbilities);
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

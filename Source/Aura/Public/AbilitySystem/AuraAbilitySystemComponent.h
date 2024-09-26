@@ -21,6 +21,10 @@ public:
 
 	void AbilityActorInfoSet();
 
+	/** 添加玩家能力集 */
+	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+
+public:
 	FEffectAssetTagsDelegate EffectAssetTagsDelegate;
 protected:
 	void EffectApplied(UAbilitySystemComponent* InAbilitySystemComponent, const FGameplayEffectSpec& InEffectSpec, FActiveGameplayEffectHandle InActiveEffectHandle);
