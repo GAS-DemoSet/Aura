@@ -78,7 +78,6 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 
 void AAuraPlayerController::CursorTrace()
 {
-	FHitResult CursorHitResult;
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHitResult);
 	if (!CursorHitResult.bBlockingHit)
 		return;
@@ -86,27 +85,10 @@ void AAuraPlayerController::CursorTrace()
 	LastActor = ThisActor;
 	ThisActor = Cast<IEnemyInterface>(CursorHitResult.GetActor());
 
-	if (LastActor == nullptr)
+	if (LastActor != ThisActor)
 	{
-		if (ThisActor != nullptr)
-		{
-			ThisActor->HighLightActor();
-		}
-	}
-	else
-	{
-		if (ThisActor == nullptr)
-		{
-			LastActor->UnHighLightActor();
-		}
-		else
-		{
-			if (LastActor != ThisActor)
-			{
-				LastActor->UnHighLightActor();
-				ThisActor->HighLightActor();
-			}
-		}
+		if (LastActor) LastActor->UnHighLightActor();
+		if (ThisActor) ThisActor->HighLightActor();
 	}
 }
 
@@ -177,7 +159,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		}
 		else
 		{
-			APawn* ControlledPawn = GetPawn();
+			const APawn* ControlledPawn = GetPawn();
 			if (FollowTime <= ShortPressThreshold && ControlledPawn)
 			{
 				// 可能会出现客户端运行无法生成问题
@@ -189,7 +171,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 					for (const FVector& PointLoc : NavPath->PathPoints)
 					{
 						Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-						DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
+						// DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
 					}
 					// 设置路径最后一个点为导航终点
 					CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
@@ -226,11 +208,10 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		{
 			// 长按进行移动
 			FollowTime += GetWorld()->GetDeltaSeconds();
-
-			FHitResult Hit;
-			if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+			
+			if (CursorHitResult.bBlockingHit)
 			{
-				CachedDestination = Hit.ImpactPoint;
+				CachedDestination = CursorHitResult.ImpactPoint;
 			}
 
 			if (APawn* ControlledPawn = GetPawn())

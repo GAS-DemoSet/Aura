@@ -58,6 +58,7 @@ private:
 
 	IEnemyInterface* LastActor = nullptr;
 	IEnemyInterface* ThisActor = nullptr;
+	FHitResult CursorHitResult;
 
 	/** 缓存目的地位置 */
 	FVector CachedDestination = FVector::ZeroVector;
