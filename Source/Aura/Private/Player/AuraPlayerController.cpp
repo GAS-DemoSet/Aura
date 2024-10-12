@@ -4,7 +4,10 @@
 #include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Input/AuraInputConfig.h"
 #include "Interface/EnemyInterface.h"
@@ -13,6 +16,9 @@
 AAuraPlayerController::AAuraPlayerController()
 {
 	SetReplicates(true);
+
+	Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
+	Spline->SetupAttachment(GetRootComponent());
 }
 
 UAuraAbilitySystemComponent* AAuraPlayerController::GetASC()
@@ -120,24 +126,98 @@ void AAuraPlayerController::Move(const FInputActionValue& InVal)
 
 void AAuraPlayerController::AbilityInputTagPressed(const FInputActionValue& InVal, FGameplayTag InputTag)
 {
+	//GetASC()->AbilityInputTagPressed(InputTag);
+	UE_LOG(AuraLog, Warning, TEXT("AAuraPlayerController::AbilityInputTagPressed:: [%s]"), *InputTag.ToString());
+
+	// 鼠标左键事件
+	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get()->InputTag_LMB))
+	{
+		// 点中得敌方目标
+		bTargeting = ThisActor ? true : false;
+		
+		bAutoRunning = false;
+	}
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	if (!GetASC())
+	UE_LOG(AuraLog, Warning, TEXT("AAuraPlayerController::AbilityInputTagReleased:: [%s]"), *InputTag.ToString());
+
+	// 鼠标左键事件
+	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get()->InputTag_LMB))
 	{
-		UE_LOG(AuraLog, Warning, TEXT("AAuraPlayerController::AbilityInputTagReleased:: ASC null!!!"));
+		if (bTargeting) // 点中得是敌方目标
+		{
+			if (GetASC())
+			{
+				GetASC()->AbilityInputTagReleased(InputTag);
+			}
+		}
+		else
+		{
+			APawn* ControlledPawn = GetPawn();
+			if (FollowTime <= ShortPressThreshold && ControlledPawn)
+			{
+				UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination);
+				if (NavPath)
+				{
+					Spline->ClearSplinePoints();
+					for (const FVector& PointLoc : NavPath->PathPoints)
+					{
+						Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+						DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
+					}
+					bAutoRunning = true;
+				}
+			}
+			FollowTime = 0.f;
+			bTargeting = false;
+		}
 		return;
 	}
-	GetASC()->AbilityInputTagReleased(InputTag);
+
+	if (GetASC())
+	{
+		GetASC()->AbilityInputTagReleased(InputTag);
+	}
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	if (!GetASC())
+	UE_LOG(AuraLog, Warning, TEXT("AAuraPlayerController::AbilityInputTagHeld:: [%s]"), *InputTag.ToString());
+
+	// 鼠标左键事件
+	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get()->InputTag_LMB))
 	{
-		UE_LOG(AuraLog, Warning, TEXT("AAuraPlayerController::AbilityInputTagHeld:: ASC null!!!"));
+		if (bTargeting) // 点中得是敌方目标
+		{
+			if (GetASC())
+			{
+				GetASC()->AbilityInputTagHeld(InputTag);
+			}
+		}
+		else
+		{
+			// 长按进行移动
+			FollowTime += GetWorld()->GetDeltaSeconds();
+
+			FHitResult Hit;
+			if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+			{
+				CachedDestination = Hit.ImpactPoint;
+			}
+
+			if (APawn* ControlledPawn = GetPawn())
+			{
+				const FVector WorldDir = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+				ControlledPawn->AddMovementInput(WorldDir);
+			}
+		}
 		return;
 	}
-	GetASC()->AbilityInputTagHeld(InputTag);
+
+	if (GetASC())
+	{
+		GetASC()->AbilityInputTagHeld(InputTag);
+	}
 }
