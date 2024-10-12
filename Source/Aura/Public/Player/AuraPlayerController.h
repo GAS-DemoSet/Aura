@@ -37,6 +37,8 @@ protected:
 private:
 	void Move(const FInputActionValue& InVal);
 
+	void AutoRun();
+
 	void AbilityInputTagPressed(const FInputActionValue& InVal, FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
@@ -59,17 +61,18 @@ private:
 
 	/** 缓存目的地位置 */
 	FVector CachedDestination = FVector::ZeroVector;
+	/** 鼠标按下时长（角色跟随鼠标移动） */
 	float FollowTime = 0.f;
 	/** 短按阈值，通过此值界定长按或者短按 */
 	float ShortPressThreshold = 0.5f;
+	/** 自行移动 */
 	bool bAutoRunning = false;
-
 	/** 鼠标触碰到得是否为目标（敌方目标） */
 	bool bTargeting = false;
-
+	/** 导航可接受得误差半径 */
 	UPROPERTY(EditDefaultsOnly)
 	float AutRunAcceptanceRadius = 50.f;
-
+	/** 导航线路 */
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
 };
