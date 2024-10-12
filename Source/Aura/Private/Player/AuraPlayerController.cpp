@@ -158,8 +158,10 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 			APawn* ControlledPawn = GetPawn();
 			if (FollowTime <= ShortPressThreshold && ControlledPawn)
 			{
-				UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination);
-				if (NavPath)
+				// 可能会出现客户端运行无法生成问题
+				// 1、检查是否铺设导航网格
+				// 2、检查项目设置中是否开始允许客户端进行导航
+				if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
 				{
 					Spline->ClearSplinePoints();
 					for (const FVector& PointLoc : NavPath->PathPoints)
