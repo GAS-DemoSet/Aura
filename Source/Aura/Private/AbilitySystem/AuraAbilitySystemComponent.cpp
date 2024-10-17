@@ -50,7 +50,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	if (!InputTag.IsValid()) return;
 
-	for (auto& Iter : GetActivatableAbilities())
+	for (auto& Iter : GetActivatableAbilities()) // 获取所有可以激活的能力（注册过的能力）
 	{
 		if (Iter.DynamicAbilityTags.HasTagExact(InputTag))
 		{

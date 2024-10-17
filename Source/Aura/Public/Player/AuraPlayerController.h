@@ -37,6 +37,7 @@ protected:
 private:
 	void Move(const FInputActionValue& InVal);
 
+	/** 左键单机地板后自行移动 */
 	void AutoRun();
 
 	void AbilityInputTagPressed(const FInputActionValue& InVal, FGameplayTag InputTag);
