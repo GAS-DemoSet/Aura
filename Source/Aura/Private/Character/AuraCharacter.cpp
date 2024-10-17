@@ -40,7 +40,7 @@ void AAuraCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
-int32 AAuraCharacter::GetPlayerLevel()
+int32 AAuraCharacter::GetPlayerLevel() const
 {
 	AAuraPlayerState* AuraPS = GetPlayerState<AAuraPlayerState>();
 	check(AuraPS);
@@ -52,8 +52,10 @@ void AAuraCharacter::InitAbilityActorInfo()
 {
 	AAuraPlayerState* AuraPS = GetPlayerState<AAuraPlayerState>();
 	check(AuraPS && AuraPS->GetAbilitySystemComponent());
-	
+
+	// 初始化 ASC Actor info
 	AuraPS->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPS, this);
+	
 	AuraAbilitySystemComponent = AuraPS->GetAuraAbilitySystemComponent();
 	AuraAbilitySystemComponent->AbilityActorInfoSet();
 	AuraAttributeSet = AuraPS->GetAuraAttributeSet();

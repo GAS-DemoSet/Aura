@@ -22,7 +22,7 @@ public:
 	//~ End APawn Interface
 
 	//~ Begin ICombatInterface
-	virtual int32 GetPlayerLevel() override;
+	virtual int32 GetPlayerLevel()  const override;
 	//~ End ICombatInterface
 
 private:

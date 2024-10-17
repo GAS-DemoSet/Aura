@@ -34,6 +34,7 @@ public:
 	
 	UAuraAttributeSet* GetAuraAttributeSet() const;
 
+	/** 获取玩家等级 */
 	FORCEINLINE int32 GetPlayerLevel() const { return Level; }
 
 protected:
@@ -43,6 +44,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Attribute")
 	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
 
+	/** 玩家等级 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_Level)
 	int32 Level = 1;
 

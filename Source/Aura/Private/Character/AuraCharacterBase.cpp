@@ -78,3 +78,9 @@ void AAuraCharacterBase::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
+FVector AAuraCharacterBase::GetCombatSocketLocation() const
+{
+	check(Weapon != nullptr)
+	return !WeaponTipSocketName.IsNone() ? Weapon->GetSocketLocation(WeaponTipSocketName) : FVector();
+}

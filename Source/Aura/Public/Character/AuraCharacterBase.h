@@ -50,11 +50,19 @@ protected:
 	//~ Begin ActorInterface
 	virtual void BeginPlay() override;
 	//~ Begin EndInterface
+
+	//~ Begin ICombatInterface
+	virtual FVector GetCombatSocketLocation() const override;
+	//~ End ICombatInterface
 	
 protected:
 	/** 武器模型 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
+
+	/**  */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	FName WeaponTipSocketName = NAME_None;
 
 	/** ASC */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")

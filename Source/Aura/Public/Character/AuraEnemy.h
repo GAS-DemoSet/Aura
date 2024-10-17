@@ -21,7 +21,7 @@ public:
 	AAuraEnemy();
 
 	//~ Begin ICombatInterface
-	virtual int32 GetPlayerLevel() override;
+	virtual int32 GetPlayerLevel() const override;
 	//~ End ICombatInterface
 
 protected:
