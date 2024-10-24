@@ -8,7 +8,7 @@
 
 class UGameplayAbility;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMouseTargetDataSignature, const FVector&, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMouseTargetDataSignature, const FGameplayAbilityTargetDataHandle&, DataHandle);
 
 /**
  * 
@@ -27,4 +27,7 @@ public:
 
 protected:
 	virtual void Activate() override;
+
+private:
+	void SendMouseCursorData();
 };
