@@ -61,6 +61,9 @@ void AAuraPlayerController::SetupInputComponent()
 	UAuraInputComponent* EnhancedInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
+	EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
+	
 	EnhancedInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 
 	// BindAbilityActions中实际做的事情就是将下面的函数模板化，并且将事先准备好的标签传入
@@ -108,6 +111,16 @@ void AAuraPlayerController::Move(const FInputActionValue& InVal)
 	}
 }
 
+void AAuraPlayerController::ShiftPressed()
+{
+	bShiftKeyDown = true;
+}
+
+void AAuraPlayerController::ShiftReleased()
+{
+	bShiftKeyDown = false;
+}
+
 void AAuraPlayerController::AutoRun()
 {
 	if (!bAutoRunning) return;
@@ -150,14 +163,11 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	// 鼠标左键事件
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get()->InputTag_LMB))
 	{
-		if (bTargeting) // 点中得是敌方目标
+		if (GetASC())
 		{
-			if (GetASC())
-			{
-				GetASC()->AbilityInputTagReleased(InputTag);
-			}
+			GetASC()->AbilityInputTagReleased(InputTag);
 		}
-		else
+		if (!bTargeting && !IsShiftKeyDown()) // 点中得是敌方目标
 		{
 			const APawn* ControlledPawn = GetPawn();
 			if (FollowTime <= ShortPressThreshold && ControlledPawn)
@@ -197,7 +207,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	// 鼠标左键事件
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get()->InputTag_LMB))
 	{
-		if (bTargeting) // 点中得是敌方目标
+		if (bTargeting || IsShiftKeyDown()) // 点中得是敌方目标
 		{
 			if (GetASC())
 			{

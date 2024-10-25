@@ -26,6 +26,9 @@ public:
 
 	UAuraAbilitySystemComponent* GetASC();
 
+	UFUNCTION(Blueprintable)
+	bool IsShiftKeyDown() const { return bShiftKeyDown; }
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -36,6 +39,9 @@ protected:
 
 private:
 	void Move(const FInputActionValue& InVal);
+
+	void ShiftPressed();
+	void ShiftReleased();
 
 	/** 左键单机地板后自行移动 */
 	void AutoRun();
@@ -50,6 +56,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> ShiftAction;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
@@ -77,4 +86,6 @@ private:
 	/** 导航线路 */
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
+
+	bool bShiftKeyDown = false; 
 };

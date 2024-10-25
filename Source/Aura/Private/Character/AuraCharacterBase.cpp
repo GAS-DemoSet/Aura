@@ -1,10 +1,15 @@
 #include "Character/AuraCharacterBase.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Log/AuraLog.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	
 
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
 	Weapon->SetupAttachment(GetMesh(), "WeaponHandSocket");
