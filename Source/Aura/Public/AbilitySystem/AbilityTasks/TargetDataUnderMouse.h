@@ -30,4 +30,10 @@ protected:
 
 private:
 	void SendMouseCursorData();
+
+	/** 当 TargetData 数据通过 RPC 回调时 */
+	void OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle, FGameplayTag GameplayTag);
+
+	/**  */
+	void OnTargetDataReplicatedCancel();
 };

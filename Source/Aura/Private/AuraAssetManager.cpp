@@ -3,6 +3,8 @@
 
 #include "AuraAssetManager.h"
 
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemGlobals.h"
 #include "AuraGameplayTags.h"
 #include "Log/AuraLog.h"
 
@@ -24,6 +26,9 @@ void UAuraAssetManager::StartInitialLoading()
 
 	// 注册 GameplayTag
 	FAuraGameplayTags::Get()->InitializeNativeGameplayTags();
+
+	// 5.3不需要再次手动调用了,引擎在模块初始化时已经调用过了（GameplayAbilitiesModule.cpp）（版本若低时依旧需要主动调用）
+	// UAbilitySystemGlobals::Get().InitGlobalData();
 }
 
 void UAuraAssetManager::FinishInitialLoading()
