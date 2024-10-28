@@ -24,6 +24,7 @@ public class Aura : ModuleRules
 			"GameplayTags",
 			"GameplayTasks",
 			"NavigationSystem",
+			"Niagara"
 		});
 
 		// Uncomment if you are using Slate UI
