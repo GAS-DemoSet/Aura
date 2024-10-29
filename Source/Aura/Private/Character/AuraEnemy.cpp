@@ -44,6 +44,8 @@ void AAuraEnemy::InitAbilityActorInfo()
 	check(AuraAbilitySystemComponent != nullptr);
 	AuraAbilitySystemComponent->InitAbilityActorInfo(this, this);
 	AuraAbilitySystemComponent->AbilityActorInfoSet();
+
+	InitializeDefaultAttributes();
 }
 
 int32 AAuraEnemy::GetPlayerLevel() const

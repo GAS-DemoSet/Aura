@@ -3,19 +3,23 @@
 
 #include "Actor/AuraProjectile.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "Aura.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Log/AuraLog.h"
 
 
 AAuraProjectile::AAuraProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	bReplicates = true;
+	SetReplicates(true);
+	SetReplicatingMovement(true);
 
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 	SetRootComponent(Sphere);
@@ -37,7 +41,15 @@ void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (GetOwner())
+	{
+		UE_LOG(AuraLog, Warning, TEXT("AAuraProjectile::BeginPlay(): %s"), *GetOwner()->GetName());
+	}
+
+	SetReplicateMovement(true);
+
 	SetLifeSpan(LifeSpan);
+	
 
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
 
@@ -76,6 +88,13 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 	
 	if (HasAuthority())
 	{
+		// 获取到被击中目标的 ASC 
+		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor);
+		if (TargetASC)
+		{
+			// 应用效果参数（伤害值）
+			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectHandle.Data);
+		}
 		// 由服务器调用删除
 		Destroy();
 	}

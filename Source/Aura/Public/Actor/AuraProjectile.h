@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
 #include "GameFramework/Actor.h"
 #include "AuraProjectile.generated.h"
 
@@ -12,6 +13,10 @@ class UNiagaraSystem;
 class USoundBase;
 class UAudioComponent;
 
+/**
+ * 投射生成物
+ * 由 UAuraProjectileSpell 能力类生成
+ */
 UCLASS()
 class AURA_API AAuraProjectile : public AActor
 {
@@ -27,7 +32,13 @@ protected:
 	UFUNCTION()
 	void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
+public:
+	/** 伤害效果句柄 */
+	UPROPERTY(BlueprintReadWrite, meta=(ExposeOnSpawn = true))
+	FGameplayEffectSpecHandle DamageEffectHandle;
+
 protected:
+	/** 投射组件 */
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
 

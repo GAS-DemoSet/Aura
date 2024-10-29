@@ -3,13 +3,15 @@
 
 #include "AbilitySystem/Abilities/AuraProjectileSpell.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "Actor/AuraProjectile.h"
 #include "Interface/CombatInterface.h"
 
 void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
 {
 	bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
-	if (!bIsServer || GetWorld() == nullptr) return;	
+	if (!bIsServer || GetWorld() == nullptr) return;
 
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
 	{
@@ -19,13 +21,19 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
+		// TODO:: 设置射弹旋转器。
 		SpawnTransform.SetRotation(Rotator.Quaternion());
 		
-		// TODO:: Set the projectile rotator.
 		
-		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(ProjectileClass, SpawnTransform, GetOwningActorFromActorInfo(), Cast<APawn>(GetAvatarActorFromActorInfo()));
-
-		// TODO:: Give the Projectile a Gameplay Effect spec for causing Damage.
+		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(ProjectileClass, SpawnTransform, GetOwningActorFromActorInfo(), Cast<APawn>(GetAvatarActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+		
+		// TODO:: 为射弹物提供造成伤害的 Gameplay Effect 规格。
+		UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+		if (SourceASC)
+		{
+			FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffect, GetAbilityLevel(), SourceASC->MakeEffectContext());
+			Projectile->DamageEffectHandle = SpecHandle;
+		}
 		
 		Projectile->FinishSpawning(SpawnTransform);
 	}

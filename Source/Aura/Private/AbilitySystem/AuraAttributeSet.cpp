@@ -70,12 +70,12 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 	if (Attribute == GetHealthAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
-		// UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PreAttributeChange:: Health=%f"), NewValue);
+		UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PreAttributeChange:: Health=%f"), NewValue);
 	}
 	if (Attribute == GetManaAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxMana());
-		// UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PreAttributeChange:: Mana=%f"), NewValue);
+		UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PreAttributeChange:: Mana=%f"), NewValue);
 	}
 }
 
@@ -93,6 +93,11 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		// UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PostGameplayEffectExecute:: Current=%f"), Health.GetCurrentValue());
 		// 需要再次修正 BaseValue
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+		UE_LOG(LogTemp, Warning, TEXT("UAuraAttributeSet::PreAttributeChange:: TargetActor=%s Health=%f"), *EffectPro.TargetAvatarActor->GetName(), GetHealth());
+	}
+	else if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	{
+		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
 	}
 }
 
