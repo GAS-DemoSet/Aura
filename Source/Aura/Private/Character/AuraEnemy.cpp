@@ -59,6 +59,11 @@ void AAuraEnemy::BeginPlay()
 
 	InitAbilityActorInfo();
 
+	InitAndBindAttributeChanged();
+}
+
+void AAuraEnemy::InitAndBindAttributeChanged()
+{
 	if (UAuraUserWidget* EnemyHealth = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
 		EnemyHealth->SetWidgetController(this);

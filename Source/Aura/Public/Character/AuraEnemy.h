@@ -36,6 +36,9 @@ protected:
 
 	virtual void BeginPlay() override;
 
+private:
+	void InitAndBindAttributeChanged();
+
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnHealthChanged;
