@@ -39,7 +39,7 @@ protected:
 	virtual void InitAbilityActorInfo();
 
 	/** 初始化 AS 属性 */
-	void InitializeDefaultAttributes() const;
+	virtual void InitializeDefaultAttributes() const;
 
 	/** 应用 GE 效果到自身 */
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GE, float Level = 1.f) const;
