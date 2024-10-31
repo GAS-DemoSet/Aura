@@ -202,8 +202,9 @@ public:
 	/*
 	 * Meta Attributes
 	 */
+	/** 传入的伤害值（可以理解为中间介质），不直接操作角色属性，通过该中介间接控制，方便解耦 */
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
-	FGameplayAttributeData IncomingDamage;
+	FGameplayAttributeData  IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
 
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
