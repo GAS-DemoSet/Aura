@@ -6,6 +6,7 @@
 #include "Engine/DataAsset.h"
 #include "CharacterClassInfo.generated.h"
 
+class UAuraGameplayAbility;
 class UGameplayEffect;
 
 UENUM(BlueprintType)
@@ -49,6 +50,10 @@ public:
 	/** 重要属性(通用) */
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Default")
 	TSubclassOf<UGameplayEffect> VitalAttributes;
+
+	/** 玩家自带技能集合 */
+	UPROPERTY(EditDefaultsOnly, Category = "Common Class Default")
+	TArray<TSubclassOf<UAuraGameplayAbility>> CommonAbility;
 
 	const FCharacterClassDefaultInfo& FindClassDefaultInfo(ECharacterClass CharacterClass) const;
 };

@@ -10,6 +10,7 @@
 #include "Player/AuraPlayerState.h"
 #include "UI/HUD/AuraHUD.h"
 #include "UI/WidgetController/AuraWidgetController.h"
+#include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 
 UOverlapWidgetController* UAuraAbilitySystemLibrary::GetOverlapWidgetController(const UObject* WorldContextObject)
 {
@@ -76,5 +77,21 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 		VitalContextHandle.AddSourceObject(AvatarActor);
 		FGameplayEffectSpecHandle VitalAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassInfo->VitalAttributes, Level, VitalContextHandle);
 		ASC->ApplyGameplayEffectSpecToSelf(*VitalAttributesSpecHandle.Data);
+	}
+}
+
+void UAuraAbilitySystemLibrary::GiveStartupAbility(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (!AuraGameMode || !ASC) return;
+
+	UCharacterClassInfo* ClassInfo = AuraGameMode->CharacterClassInfo;
+	if (IsValid(ClassInfo))
+	{
+		for (const auto& Iter : ClassInfo->CommonAbility)
+		{
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Iter, 1);
+			ASC->GiveAbility(AbilitySpec);
+		}
 	}
 }

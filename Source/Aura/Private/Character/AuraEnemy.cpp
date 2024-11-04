@@ -65,9 +65,13 @@ void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+
 	InitAbilityActorInfo();
 
 	InitAndBindAttributeChanged();
+
+	UAuraAbilitySystemLibrary::GiveStartupAbility(this, AuraAbilitySystemComponent);
 }
 
 void AAuraEnemy::InitAndBindAttributeChanged()
