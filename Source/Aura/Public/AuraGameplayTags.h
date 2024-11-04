@@ -47,6 +47,15 @@ public:
 	FGameplayTag InputTag_Passive_1;
 	FGameplayTag InputTag_Passive_2;
 
+	/*
+	 * Damage Types
+	 */
+	FGameplayTag Damage;
+	FGameplayTag Damage_Fire;
+	FGameplayTag Damage_Lightning;
+	FGameplayTag Damage_Arcane;
+	FGameplayTag Damage_Physical;
+
 
 private:
 	static TSharedPtr<FAuraGameplayTags> GameplayTags;
