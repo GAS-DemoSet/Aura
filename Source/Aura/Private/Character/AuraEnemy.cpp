@@ -1,10 +1,12 @@
 #include "Character/AuraEnemy.h"
 
 #include "Aura.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
 
 AAuraEnemy::AAuraEnemy()
@@ -91,7 +93,17 @@ void AAuraEnemy::InitAndBindAttributeChanged()
 			}
 		);
 
+		/** 注册 GameplayTags 事件，当 GameplayTag 增加或移除时通知 */
+		AuraAbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get()->Effect_HitReact).AddUObject(this, &AAuraEnemy::EventOnHitReactTagChanged);
+
 		OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
 		OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
 	}
+}
+
+void AAuraEnemy::EventOnHitReactTagChanged(const FGameplayTag GameplayTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }

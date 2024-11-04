@@ -56,6 +56,10 @@ public:
 	FGameplayTag Damage_Arcane;
 	FGameplayTag Damage_Physical;
 
+	/*
+	 * Ability
+	 */
+	FGameplayTag Effect_HitReact;
 
 private:
 	static TSharedPtr<FAuraGameplayTags> GameplayTags;

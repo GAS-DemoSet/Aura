@@ -172,6 +172,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Physical Damage Type")
 		);
 
+	/**
+	 * Ability Tags
+	 */
+	Effect_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Effect.HitReact"),
+		FString("Hit React Ability")
+		);
 }
 
 void FAuraGameplayTags::UnInitializeNativeGameplayTags()

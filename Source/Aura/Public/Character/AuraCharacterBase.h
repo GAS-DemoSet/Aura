@@ -13,6 +13,7 @@ class UAuraAbilitySystemComponent;
 class USkeletalMeshComponent;
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UAnimMontage;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase
@@ -31,6 +32,10 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAuraAbilitySystemComponent* GetAuraAbilitySystemComponent() const;
 	//~ End IAbilitySystemInterface
+
+	//~ Begin ICombatInterface
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	//~ End ICombatInterface
 	
 	UAuraAttributeSet* GetAuraAttributeSet() const;
 
@@ -85,6 +90,11 @@ protected:
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
 private:
+	/** 玩家自带技能，游戏初始化阶段进行注册 */
 	UPROPERTY(EditDefaultsOnly, Category="Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	/** 玩家受击蒙太奇 */
+	UPROPERTY(EditDefaultsOnly, Category="Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 };

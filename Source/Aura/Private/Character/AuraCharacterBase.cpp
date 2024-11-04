@@ -37,6 +37,11 @@ UAuraAbilitySystemComponent* AAuraCharacterBase::GetAuraAbilitySystemComponent()
 	return AuraAbilitySystemComponent;
 }
 
+UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
+{
+	return HitReactMontage;
+}
+
 UAuraAttributeSet* AAuraCharacterBase::GetAuraAttributeSet() const
 {
 	return AuraAttributeSet;

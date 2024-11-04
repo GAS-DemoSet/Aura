@@ -25,6 +25,9 @@ public:
 	virtual int32 GetPlayerLevel() const override;
 	//~ End ICombatInterface
 
+	/** 当前是否为被打击状态 */
+	bool IsHitReacting() const { return bHitReacting; }
+
 protected:
 	//~ Begin IEnemyInterface
 	virtual void HighLightActor() override;
@@ -40,6 +43,9 @@ protected:
 
 private:
 	void InitAndBindAttributeChanged();
+
+	/** 当存在 HitReact 标签时调用 */
+	void EventOnHitReactTagChanged(const FGameplayTag GameplayTag, int32 NewCount);
 
 public:
 	/** 当怪物血量变化时 */
@@ -65,4 +71,12 @@ protected:
 	/** 怪物血条组件 */
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	TObjectPtr<UWidgetComponent> HealthBar;
+
+	/** 打击反应中（被击中后的动作） */
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool bHitReacting = false;
+
+	/** 基础行走速度 */
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	float BaseWalkSpeed = 250.f;
 };
