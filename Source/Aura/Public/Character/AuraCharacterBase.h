@@ -14,6 +14,8 @@ class USkeletalMeshComponent;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UAnimMontage;
+class UMaterialInstanceDynamic;
+class UMaterialInstance;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase
@@ -63,6 +65,10 @@ protected:
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void EventHandleDeath_Multicast();
+
+	void Dissolve();
+	UFUNCTION(BlueprintImplementableEvent, Category="Dissolve")
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMatIns, UMaterialInstanceDynamic* WeaponDynamicMatIns);
 	
 protected:
 	/** 武器模型 */
@@ -92,6 +98,12 @@ protected:
 	/** AS 参数默认属性值 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
+	/** 溶解效果材质(死亡后溶解) */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dissolve")
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dissolve")
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 
 private:
 	/** 玩家自带技能，游戏初始化阶段进行注册 */

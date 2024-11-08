@@ -107,6 +107,24 @@ FVector AAuraCharacterBase::GetCombatSocketLocation() const
 	return !WeaponTipSocketName.IsNone() ? Weapon->GetSocketLocation(WeaponTipSocketName) : FVector();
 }
 
+void AAuraCharacterBase::Dissolve()
+{
+	UMaterialInstanceDynamic* DynamicMatIns = nullptr;
+	UMaterialInstanceDynamic* WeaponDynamicMatIns = nullptr;
+	if (DissolveMaterialInstance)
+	{
+		DynamicMatIns = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		GetMesh()->SetMaterial(0, DynamicMatIns);
+	}
+	if (WeaponDissolveMaterialInstance)
+	{
+		WeaponDynamicMatIns = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+		Weapon->SetMaterial(0, DynamicMatIns);
+	}
+	
+	StartDissolveTimeline(DynamicMatIns, WeaponDynamicMatIns);
+}
+
 void AAuraCharacterBase::EventHandleDeath_Multicast_Implementation()
 {
 	Weapon->SetSimulatePhysics(true);
@@ -119,4 +137,6 @@ void AAuraCharacterBase::EventHandleDeath_Multicast_Implementation()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::PhysicsOnly);
+
+	Dissolve();
 }
