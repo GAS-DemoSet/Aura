@@ -35,6 +35,7 @@ public:
 
 	//~ Begin ICombatInterface
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	virtual void Die() override;
 	//~ End ICombatInterface
 	
 	UAuraAttributeSet* GetAuraAttributeSet() const;
@@ -59,6 +60,9 @@ protected:
 	//~ Begin ICombatInterface
 	virtual FVector GetCombatSocketLocation() const override;
 	//~ End ICombatInterface
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void EventHandleDeath_Multicast();
 	
 protected:
 	/** 武器模型 */

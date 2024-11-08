@@ -42,6 +42,12 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 	return HitReactMontage;
 }
 
+void AAuraCharacterBase::Die()
+{
+	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	EventHandleDeath_Multicast();
+}
+
 UAuraAttributeSet* AAuraCharacterBase::GetAuraAttributeSet() const
 {
 	return AuraAttributeSet;
@@ -99,4 +105,18 @@ FVector AAuraCharacterBase::GetCombatSocketLocation() const
 {
 	check(Weapon != nullptr)
 	return !WeaponTipSocketName.IsNone() ? Weapon->GetSocketLocation(WeaponTipSocketName) : FVector();
+}
+
+void AAuraCharacterBase::EventHandleDeath_Multicast_Implementation()
+{
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::Type::PhysicsOnly);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::PhysicsOnly);
 }

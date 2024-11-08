@@ -23,6 +23,7 @@ public:
 
 	//~ Begin ICombatInterface
 	virtual int32 GetPlayerLevel() const override;
+	virtual void Die() override;
 	//~ End ICombatInterface
 
 	/** 当前是否为被打击状态 */
@@ -79,4 +80,8 @@ protected:
 	/** 基础行走速度 */
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	float BaseWalkSpeed = 250.f;
+	
+	/** 判定死亡后存留时间 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	float LifeSpan = 5.f;
 };
