@@ -12,6 +12,8 @@
 #include "Input/AuraInputConfig.h"
 #include "Interface/EnemyInterface.h"
 #include "Log/AuraLog.h"
+#include "GameFramework/Character.h"
+#include "UI/Widget/DamageTextWidgetComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -28,6 +30,18 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetASC()
 		ASC = Cast<UAuraAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
 	}
 	return ASC.Get();
+}
+
+void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	if (TargetCharacter && DamageTextClass.GetGCPtr())
+	{
+		UDamageTextWidgetComponent* DamageText = NewObject<UDamageTextWidgetComponent>(TargetCharacter, DamageTextClass);
+		DamageText->RegisterComponent();
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(DamageAmount);
+	}
 }
 
 void AAuraPlayerController::BeginPlay()

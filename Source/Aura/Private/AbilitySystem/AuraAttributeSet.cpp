@@ -8,7 +8,10 @@
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "Interface/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "Log/AuraLog.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/AuraPlayerController.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -123,6 +126,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				TagContainer.AddTag(FAuraGameplayTags::Get()->Effect_HitReact);
 				EffectPro.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
+
+			ShowFloatingText(EffectPro, LocalIncomingDamage);
 		}
 	}
 }
@@ -257,6 +262,20 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 		EffectPro.TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
 		EffectPro.TargetCharacter = Cast<ACharacter>(EffectPro.TargetAvatarActor);
 		EffectPro.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(EffectPro.TargetAvatarActor);
+	}
+}
+
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& EffectProp, float Value)
+{
+	UE_LOG(AuraLog, Warning, TEXT("UAuraAttributeSet::ShowFloatingText:: %f-- %i"), Value, static_cast<int32>(EffectProp.SourceCharacter->GetLocalRole()));
+	if (EffectProp.SourceCharacter && EffectProp.SourceCharacter != EffectProp.TargetCharacter)
+	{
+		UE_LOG(AuraLog, Warning, TEXT("UAuraAttributeSet::ShowFloatingText:: 1111"));
+		if (AAuraPlayerController* AuraPC = EffectProp.SourceCharacter->GetController<AAuraPlayerController>())
+		{
+			UE_LOG(AuraLog, Warning, TEXT("UAuraAttributeSet::ShowFloatingText:: 222"));
+			AuraPC->ShowDamageNumber(Value, EffectProp.TargetCharacter);
+		}
 	}
 }
 
