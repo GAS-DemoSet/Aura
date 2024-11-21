@@ -50,14 +50,11 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 
 void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
-	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-	if (!AuraGameMode || !ASC) return;
-
-	AActor* AvatarActor = ASC->GetAvatarActor();
-	
-	UCharacterClassInfo* ClassInfo = AuraGameMode->CharacterClassInfo;
-	if (IsValid(ClassInfo))
+	UCharacterClassInfo* ClassInfo = GetCharacterClassInfo(WorldContextObject);
+	if (ClassInfo && ASC)
 	{
+		AActor* AvatarActor = ASC->GetAvatarActor();
+		
 		FCharacterClassDefaultInfo ClassDefaultInfo = ClassInfo->FindClassDefaultInfo(CharacterClass);
 
 		/** ！！！ 设置源对象，否则MMC在计算时会出现空指针问题 */
@@ -82,11 +79,8 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 
 void UAuraAbilitySystemLibrary::GiveStartupAbility(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
 {
-	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-	if (!AuraGameMode || !ASC) return;
-
-	UCharacterClassInfo* ClassInfo = AuraGameMode->CharacterClassInfo;
-	if (IsValid(ClassInfo))
+	UCharacterClassInfo* ClassInfo = GetCharacterClassInfo(WorldContextObject);
+	if (ClassInfo && ASC)
 	{
 		for (const auto& Iter : ClassInfo->CommonAbility)
 		{
@@ -94,4 +88,11 @@ void UAuraAbilitySystemLibrary::GiveStartupAbility(const UObject* WorldContextOb
 			ASC->GiveAbility(AbilitySpec);
 		}
 	}
+}
+
+UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (!AuraGameMode) return nullptr;
+	return AuraGameMode->CharacterClassInfo;
 }

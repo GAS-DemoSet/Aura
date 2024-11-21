@@ -2,7 +2,10 @@
 
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "Interface/CombatInterface.h"
 
 // 定义 Armor 变量以及 Armor 的属性捕获参数
 struct AuraDamageStatics
@@ -37,6 +40,8 @@ UEC_Damage::UEC_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorPenetrationDef);
 }
 
+// 防优化宏
+// PRAGMA_DISABLE_OPTIMIZATION
 void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
@@ -45,6 +50,8 @@ void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionPara
 
 	const AActor* SourceActor = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
 	const AActor* TargetActor = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	const ICombatInterface* SourceCombatInterface = Cast<ICombatInterface>(SourceActor);
+	const ICombatInterface* TargetCombatInterface = Cast<ICombatInterface>(TargetActor);
 
 	const FGameplayEffectSpec& GESpec = ExecutionParams.GetOwningSpec();
 
@@ -85,14 +92,31 @@ void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionPara
 
 	// 捕捉捕获 伤害源 的 护甲穿透 值
 	float SourceArmorPenetration = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluateParameters, SourceArmorPenetration);
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorPenetrationDef, EvaluateParameters, SourceArmorPenetration);
 	SourceArmorPenetration = FMath::Max(SourceArmorPenetration, 0.f);
 
-	// 应用护甲值和护甲穿透值
-	const float EffectiveArmor = TargetArmor *= (100.f - SourceArmorPenetration * 0.25f) / 100.f;
-	Damage *= (100.f - EffectiveArmor * 0.3f) / 100.f;
+	// 获取伤害计算曲线表
+	UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceActor);
+	checkf(CharacterClassInfo->DamageCalculationCoefficients, TEXT("UEC_Damage::Execute_Implementation:: !!!"));
+
+	// 获取穿甲系数曲线
+	const FRealCurve* ArmorPenetrationCurve = CharacterClassInfo->DamageCalculationCoefficients->FindCurve(FName("ArmorPenetration"), FString());
+	check(ArmorPenetrationCurve);
+	const float ArmorPenetrationCoefficient = ArmorPenetrationCurve->Eval(SourceCombatInterface->GetPlayerLevel());
+
+	// 获取有效装甲系数曲线
+	const FRealCurve* EffectiveArmorCurve = CharacterClassInfo->DamageCalculationCoefficients->FindCurve(FName("EffectiveArmor"), FString());
+	check(EffectiveArmorCurve);
+	const float EffectiveArmorCoefficient = EffectiveArmorCurve->Eval(TargetCombatInterface->GetPlayerLevel());
+
+	// 穿甲值忽略一部分护甲
+	const float EffectiveArmor = TargetArmor * (100.f - SourceArmorPenetration * ArmorPenetrationCoefficient) / 100.f;
+	// 护甲值忽略一部分伤害
+	Damage *= (100.f - EffectiveArmor * EffectiveArmorCoefficient) / 100.f;
 
 	// 提交修改
 	FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }
+// 防优化宏
+// PRAGMA_ENABLE_OPTIMIZATION
