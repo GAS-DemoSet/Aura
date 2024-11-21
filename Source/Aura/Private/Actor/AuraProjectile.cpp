@@ -92,11 +92,14 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor);
 		if (TargetASC)
 		{
-			// 应用效果参数（伤害值）
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectHandle.Data);
+			if (ensureMsgf(DamageEffectHandle.IsValid(), TEXT("AAuraProjectile::OnSphereOverlap:: DanageEffectHandle is null!!!")))
+			{
+				// 应用效果参数（伤害值）
+				TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectHandle.Data);
+			}
 		}
 		// 由服务器调用删除
-		Destroy();
+		Destroy(true);
 	}
 	else
 	{

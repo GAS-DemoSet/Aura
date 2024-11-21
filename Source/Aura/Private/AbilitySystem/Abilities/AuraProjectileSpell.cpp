@@ -21,6 +21,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 		Rotator.Pitch = 0.f;
 
 		FTransform SpawnTransform;
+		// SpawnTransform.SetLocation(SocketLocation + GetAvatarActorFromActorInfo()->GetActorForwardVector() * 100.f);
 		SpawnTransform.SetLocation(SocketLocation);
 		// TODO:: 设置射弹旋转器。
 		SpawnTransform.SetRotation(Rotator.Quaternion());
@@ -36,6 +37,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 			const float TagValue = Damage.GetValueAtLevel(GetAbilityLevel());
 
+			// Set by caller 
 			UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, FAuraGameplayTags::Get()->Damage, TagValue);
 			
 			Projectile->DamageEffectHandle = SpecHandle;
