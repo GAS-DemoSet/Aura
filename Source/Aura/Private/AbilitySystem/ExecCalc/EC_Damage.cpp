@@ -1,6 +1,7 @@
 #include "AbilitySystem/ExecCalc/EC_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityType.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -96,6 +97,10 @@ void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionPara
 	TargetBlockChance = FMath::Max(TargetBlockChance, 0.f);
 	// 几率测算
 	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChance;
+
+	FGameplayEffectContextHandle EffectContextHandle = GESpec.GetContext();
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+	
 	// 如果阻止，则将伤害减半。
 	Damage = bBlocked ? Damage / 2.f : Damage;
 
@@ -152,6 +157,8 @@ void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionPara
 	// 暴击抗性减少一定得暴击几率
 	const float EffectiveCriticalHitChance = SourceCriticalHitChance - TargetCriticalHitResistance * CriticalHitResistanceCoefficient;
 	const bool bCriticalHit = FMath::RandRange(1, 100) < EffectiveCriticalHitChance;
+
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
 
 	// 双倍伤害加暴击加成
 	Damage = bCriticalHit ? 2 * Damage + SourceCriticalHitDamage : Damage;

@@ -6,6 +6,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraGameplayTags.h"
 #include "GameplayEffectExtension.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "GameFramework/Character.h"
 #include "Interface/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -127,7 +128,10 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				EffectPro.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
 
-			ShowFloatingText(EffectPro, LocalIncomingDamage);
+			bool bBlocked = UAuraAbilitySystemLibrary::IsBlockedHit(EffectPro.EffectContextHandle);
+			bool bCritical = UAuraAbilitySystemLibrary::IsCriticalHit(EffectPro.EffectContextHandle);
+
+			ShowFloatingText(EffectPro, LocalIncomingDamage, bBlocked, bCritical);
 		}
 	}
 }
@@ -265,15 +269,13 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	}
 }
 
-void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& EffectProp, float Value)
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& EffectProp, float Value, bool bBlockHit, bool bCriticalHit)
 {
 	UE_LOG(AuraLog, Warning, TEXT("UAuraAttributeSet::ShowFloatingText:: %f-- %i"), Value, static_cast<int32>(EffectProp.SourceCharacter->GetLocalRole()));
 	if (EffectProp.SourceCharacter && EffectProp.SourceCharacter != EffectProp.TargetCharacter)
 	{
-		UE_LOG(AuraLog, Warning, TEXT("UAuraAttributeSet::ShowFloatingText:: 1111"));
 		if (AAuraPlayerController* AuraPC = EffectProp.SourceCharacter->GetController<AAuraPlayerController>())
 		{
-			UE_LOG(AuraLog, Warning, TEXT("UAuraAttributeSet::ShowFloatingText:: 222"));
 			AuraPC->ShowDamageNumber(Value, EffectProp.TargetCharacter);
 		}
 	}

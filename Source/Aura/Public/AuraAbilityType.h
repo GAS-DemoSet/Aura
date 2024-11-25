@@ -32,9 +32,11 @@ public:
 	}
 	
 protected:
+	/** 攻击是否被格挡 */
 	UPROPERTY()
 	bool bIsBlockedHit = false;
 
+	/** 攻击是否带暴击 */
 	UPROPERTY()
 	bool bIsCriticalHit = false;
 };

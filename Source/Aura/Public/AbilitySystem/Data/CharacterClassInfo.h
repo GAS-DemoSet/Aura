@@ -32,7 +32,7 @@ struct FCharacterClassDefaultInfo
 };
 
 /**
- * 
+ * 怪物角色数据
  */
 UCLASS()
 class AURA_API UCharacterClassInfo : public UDataAsset
