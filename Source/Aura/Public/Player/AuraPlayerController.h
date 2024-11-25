@@ -31,7 +31,7 @@ public:
 	bool IsShiftKeyDown() const { return bShiftKeyDown; }
 
 	UFUNCTION(Client, Reliable)
-	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockHit, bool bCriticalHit);
 
 protected:
 	virtual void BeginPlay() override;

@@ -276,7 +276,7 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& EffectProp, fl
 	{
 		if (AAuraPlayerController* AuraPC = EffectProp.SourceCharacter->GetController<AAuraPlayerController>())
 		{
-			AuraPC->ShowDamageNumber(Value, EffectProp.TargetCharacter);
+			AuraPC->ShowDamageNumber(Value, EffectProp.TargetCharacter, bBlockHit, bCriticalHit);
 		}
 	}
 }
