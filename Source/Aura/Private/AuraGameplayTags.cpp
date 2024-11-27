@@ -172,10 +172,37 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Physical Damage Type（物理伤害）")
 		);
 
-	DamageTypes.Add(Damage_Fire);
-	DamageTypes.Add(Damage_Lightning);
-	DamageTypes.Add(Damage_Arcane);
-	DamageTypes.Add(Damage_Physical);
+	
+	/**
+	 * 次要属性：伤害抵抗标签
+	 */
+	Attributes_Resistance_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Resistance.Fire"),
+		FString("Resistance（火焰抵抗）")
+		);
+
+	Attributes_Resistance_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Resistance.Lightning"),
+		FString("Resistance（雷电抵抗）")
+		);
+
+	Attributes_Resistance_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Resistance.Arcane"),
+		FString("Resistance（奥术抵抗）")
+		);
+
+	Attributes_Resistance_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Resistance.Physical"),
+		FString("Resistance（物理抵抗）")
+		);
+
+	/**
+	 * Map of Damage to Resistance
+	 */
+	DamageTypesToResistances.Add(Damage_Fire, Attributes_Resistance_Fire);
+	DamageTypesToResistances.Add(Damage_Lightning, Attributes_Resistance_Lightning);
+	DamageTypesToResistances.Add(Damage_Arcane, Attributes_Resistance_Arcane);
+	DamageTypesToResistances.Add(Damage_Physical, Attributes_Resistance_Physical);
 
 	/**
 	 * Ability Tags

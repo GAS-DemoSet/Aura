@@ -76,8 +76,20 @@ public:
 	/** Physical Damage Type（物理伤害） */
 	FGameplayTag Damage_Physical;
 
+	/**
+	 * 次要属性：伤害抵抗标签
+	 */
+	/** 火焰抵抗 */
+	FGameplayTag Attributes_Resistance_Fire;
+	/** 雷电抵抗 */
+	FGameplayTag Attributes_Resistance_Lightning;
+	/** 奥术抵抗 */
+	FGameplayTag Attributes_Resistance_Arcane;
+	/** 物理抵抗 */
+	FGameplayTag Attributes_Resistance_Physical;
+
 	/** 伤害类型集合 */
-	TArray<FGameplayTag> DamageTypes;
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 	
 	/*
 	 * Ability
