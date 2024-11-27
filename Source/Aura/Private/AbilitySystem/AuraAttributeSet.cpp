@@ -36,6 +36,12 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(FAuraGameplayTags::Get()->Attributes_Secondary_ManaRegeneration, GetManaRegenerationAttribute);
 	TagsToAttributes.Add(FAuraGameplayTags::Get()->Attributes_Secondary_MaxHealth, GetMaxHealthAttribute);
 	TagsToAttributes.Add(FAuraGameplayTags::Get()->Attributes_Secondary_MaxMana, GetMaxManaAttribute);
+
+	/** Resistance Attributes */
+	TagsToAttributes.Add(FAuraGameplayTags::Get()->Attributes_Resistance_Fire, GetFireResistanceAttribute);
+	TagsToAttributes.Add(FAuraGameplayTags::Get()->Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
+	TagsToAttributes.Add(FAuraGameplayTags::Get()->Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
+	TagsToAttributes.Add(FAuraGameplayTags::Get()->Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
