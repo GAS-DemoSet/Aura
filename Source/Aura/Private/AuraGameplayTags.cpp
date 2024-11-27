@@ -31,22 +31,22 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	 */
 	Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Strength"),
-		FString("Increases physical damage")
+		FString("Increases physical damage（主要属性：力量值）")
 		);
 
 	Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Intelligence"),
-		FString("Increases magical damage")
+		FString("Increases magical damage（主要属性：智力值）")
 		);
 
 	Attributes_Primary_Resilience = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Resilience"),
-		FString("Increases Armor and Armor Penetration")
+		FString("Increases Armor and Armor Penetration（主要属性：韧性值）")
 		);
 
 	Attributes_Primary_Vigor = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Vigor"),
-		FString("Increases Health")
+		FString("Increases Health（主要属性：活力值）")
 		);
 
 	
@@ -55,52 +55,52 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	 */
 	Attributes_Secondary_Armor = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.Armor"),
-		FString("Reduces damage taken, improves Block Chance")
+		FString("Reduces damage taken, improves Block Chance（次要属性：护甲值）")
 		);
 
 	Attributes_Secondary_ArmorPenetration = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.ArmorPenetration"),
-		FString("Ignores Percentage of enemy Armor, increases Critical Hit Chance")
+		FString("Ignores Percentage of enemy Armor, increases Critical Hit Chance（次要属性：护甲穿透值）")
 		);
 
 	Attributes_Secondary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.BlockChance"),
-		FString("Chance to cut incoming damage in half")
+		FString("Chance to cut incoming damage in half（次要属性：阻挡几率值）")
 		);
 
 	Attributes_Secondary_CriticalHitChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.CriticalHitChance"),
-		FString("Chance to double damage plus critical hit bonus")
+		FString("Chance to double damage plus critical hit bonus（次要属性：暴击率值）")
 		);
 
 	Attributes_Secondary_CriticalHitDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.CriticalHitDamage"),
-		FString("Bonus damage added when a critical hit is scored")
+		FString("Bonus damage added when a critical hit is scored（次要属性：暴击伤害值）")
 		);
 
 	Attributes_Secondary_CriticalHitResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.CriticalHitResistance"),
-		FString("Reduces Critical Hit Chance of attacking enemies")
+		FString("Reduces Critical Hit Chance of attacking enemies（次要属性：暴击抗性值）")
 		);
 
 	Attributes_Secondary_HealthRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.HealthRegeneration"),
-		FString("Amount of Health regenerated every 1 second")
+		FString("Amount of Health regenerated every 1 second（次要属性：生命恢复值）")
 		);
 
 	Attributes_Secondary_ManaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.ManaRegeneration"),
-		FString("Amount of Mana regenerated every 1 second")
+		FString("Amount of Mana regenerated every 1 second（次要属性：法力恢复值）")
 		);
 
 	Attributes_Secondary_MaxHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.MaxHealth"),
-		FString("Maximum amount of Health obtainable")
+		FString("Maximum amount of Health obtainable（次要属性：最大生命值）")
 		);
 
 	Attributes_Secondary_MaxMana = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.MaxMana"),
-		FString("Maximum amount of Mana obtainable")
+		FString("Maximum amount of Mana obtainable（次要属性：最大法力值）")
 		);
 
 
@@ -109,12 +109,12 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	 */
 	InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("InputTag.LMB"),
-		FString("Input Tag for Left Mouse Button")
+		FString("Input Tag for Left Mouse Button（鼠标左键）")
 		);
 
 	InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("InputTag.RMB"),
-		FString("Input Tag for Right Mouse Button")
+		FString("Input Tag for Right Mouse Button（鼠标右键）")
 		);
 
 	InputTag_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(
@@ -153,23 +153,23 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	 */
 	Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage"),
-		FString("Damage")
+		FString("Damage（伤害）")
 		);
 	Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage.Fire"),
-		FString("Fire Damage Type")
+		FString("Fire Damage Type（火焰伤害）")
 		);
 	Damage_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage.Lightning"),
-		FString("Lightning Damage Type")
+		FString("Lightning Damage Type（雷电伤害）")
 		);
 	Damage_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage.Arcane"),
-		FString("Arcane Damage Type")
+		FString("Arcane Damage Type（奥术伤害）")
 		);
 	Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage.Physical"),
-		FString("Physical Damage Type")
+		FString("Physical Damage Type（物理伤害）")
 		);
 
 	DamageTypes.Add(Damage_Fire);
