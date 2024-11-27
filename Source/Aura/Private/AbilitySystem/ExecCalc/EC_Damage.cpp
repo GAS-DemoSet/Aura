@@ -76,22 +76,14 @@ void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionPara
 	EvaluateParameters.TargetTags = GESpec.CapturedTargetTags.GetAggregatedTags();
 	
 	// TODO:: 计算...
-	
-	// float Armor = 0.f;
-	// 参数捕获
-	// ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluateParameters, Armor);
-	// Armor = FMath::Max<float>(0.f, Armor);
-	// Armor++;
-
-	// 提交修改
-	// FGameplayModifierEvaluatedData EvaluatedData(DamageStatics().ArmorProperty, EGameplayModOp::Additive, Armor);
-	// OutExecutionOutput.AddOutputModifier(EvaluatedData);
 
 	// Get damage set by caller Magnitude
 	// 获取由源对象设置的伤害值
 	float Damage = 0.f;
+	// 遍历伤害类型，获取由调用方注册的标签伤害值（UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude()）
 	for (const auto& Iter : FAuraGameplayTags::Get()->DamageTypes)
 	{
+		// 下面的获取函数由（UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude()）进行注册值
 		const float TempDamageTypeVal = GESpec.GetSetByCallerMagnitude(Iter);
 		Damage += TempDamageTypeVal;
 	}

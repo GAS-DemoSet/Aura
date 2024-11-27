@@ -45,6 +45,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 			
 			FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), GameplayEffectContextHandle);
 
+			// 注册伤害类型标签值
 			for (const auto& Iter : DamageTypes)
 			{
 				const float TagValue = Iter.Value.GetValueAtLevel(GetAbilityLevel());
