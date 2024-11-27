@@ -56,6 +56,8 @@ public:
 	FGameplayTag Damage_Arcane;
 	FGameplayTag Damage_Physical;
 
+	TArray<FGameplayTag> DamageTypes;
+	
 	/*
 	 * Ability
 	 */

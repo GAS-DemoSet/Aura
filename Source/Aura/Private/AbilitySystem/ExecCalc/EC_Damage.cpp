@@ -57,7 +57,7 @@ UEC_Damage::UEC_Damage()
 }
 
 // 防优化宏
-// PRAGMA_DISABLE_OPTIMIZATION
+PRAGMA_DISABLE_OPTIMIZATION
 void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
@@ -89,7 +89,12 @@ void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionPara
 
 	// Get damage set by caller Magnitude
 	// 获取由源对象设置的伤害值
-	float Damage = GESpec.GetSetByCallerMagnitude(FAuraGameplayTags::Get()->Damage);
+	float Damage = 0.f;
+	for (const auto& Iter : FAuraGameplayTags::Get()->DamageTypes)
+	{
+		const float TempDamageTypeVal = GESpec.GetSetByCallerMagnitude(Iter);
+		Damage += TempDamageTypeVal;
+	}
 
 	// 捕获目标上的 阻挡几率，并确定是否成功阻止 如果阻止，则将伤害减半。
 	float TargetBlockChance = 0.f;
@@ -168,4 +173,4 @@ void UEC_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionPara
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }
 // 防优化宏
-// PRAGMA_ENABLE_OPTIMIZATION
+PRAGMA_ENABLE_OPTIMIZATION

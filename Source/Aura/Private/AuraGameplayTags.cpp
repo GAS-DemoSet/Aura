@@ -172,6 +172,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Physical Damage Type")
 		);
 
+	DamageTypes.Add(Damage_Fire);
+	DamageTypes.Add(Damage_Lightning);
+	DamageTypes.Add(Damage_Arcane);
+	DamageTypes.Add(Damage_Physical);
+
 	/**
 	 * Ability Tags
 	 */
