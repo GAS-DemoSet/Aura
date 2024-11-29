@@ -69,12 +69,16 @@ void AAuraProjectile::Destroyed()
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
 	}
+	Print_Log_NetRole(GetInstigator(), Warning, *FString::Printf(TEXT("火焰投射物被移除了")))
 	Super::Destroyed();
 }
 
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	Print_Log_NetRole(GetInstigator(), Warning, *FString::Printf(TEXT("火焰投射物碰到了{%s--%s}"), *OtherActor->GetName(), *GetInstigator()->GetName()));
+	if (!GetInstigator() || GetInstigator() == OtherActor ) return;
+	
 	if (LoopingSoundComponent)
 	{
 		LoopingSoundComponent->Stop();
@@ -100,6 +104,7 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		}
 		// 由服务器调用删除
 		Destroy(true);
+		Print_Log_NetRole(GetInstigator(), Warning, *FString::Printf(TEXT("删除火焰投射物")))
 	}
 	else
 	{

@@ -27,7 +27,7 @@ void UTargetDataUnderMouse::Activate()
 		AbilitySystemComponent.Get()->AbilityTargetDataSetDelegate(SpecHandle, ActivationPredictionKey).AddUObject(this, &UTargetDataUnderMouse::OnTargetDataReplicatedCallback);
 		//AbilitySystemComponent.Get()->AbilityTargetDataCancelledDelegate(SpecHandle, ActivationPredictionKey).AddUObject(this, &UTargetDataUnderMouse::OnTargetDataReplicatedCancel);
 		const bool bCalledDelegate = AbilitySystemComponent.Get()->CallReplicatedTargetDataDelegatesIfSet(SpecHandle, ActivationPredictionKey);
-		if (bCalledDelegate)
+		if (!bCalledDelegate)
 		{
 			// 等待远端数据（回调UTargetDataUnderMouse::OnTargetDataReplicatedCallback）
 			SetWaitingOnRemotePlayerData();
