@@ -34,7 +34,7 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetASC()
 
 void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockHit, bool bCriticalHit)
 {
-	if (TargetCharacter && DamageTextClass.GetGCPtr())
+	if (TargetCharacter && DamageTextClass.GetGCPtr() && IsLocalController())
 	{
 		UDamageTextWidgetComponent* DamageText = NewObject<UDamageTextWidgetComponent>(TargetCharacter, DamageTextClass);
 		DamageText->RegisterComponent();

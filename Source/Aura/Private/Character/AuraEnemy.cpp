@@ -48,7 +48,10 @@ void AAuraEnemy::InitAbilityActorInfo()
 	AuraAbilitySystemComponent->InitAbilityActorInfo(this, this);
 	AuraAbilitySystemComponent->AbilityActorInfoSet();
 
-	InitializeDefaultAttributes();
+	if (HasAuthority())
+	{
+		InitializeDefaultAttributes();
+	}
 }
 
 void AAuraEnemy::InitializeDefaultAttributes() const
@@ -77,7 +80,10 @@ void AAuraEnemy::BeginPlay()
 
 	InitAndBindAttributeChanged();
 
-	UAuraAbilitySystemLibrary::GiveStartupAbility(this, AuraAbilitySystemComponent);
+	if (HasAuthority())
+	{
+		UAuraAbilitySystemLibrary::GiveStartupAbility(this, AuraAbilitySystemComponent);
+	}
 }
 
 void AAuraEnemy::InitAndBindAttributeChanged()

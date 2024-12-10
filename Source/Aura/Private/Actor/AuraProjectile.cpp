@@ -78,17 +78,20 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 {
 	Print_Log_NetRole(GetInstigator(), Warning, *FString::Printf(TEXT("火焰投射物碰到了{%s--%s}"), *OtherActor->GetName(), *GetInstigator()->GetName()));
 	if (!GetInstigator() || GetInstigator() == OtherActor ) return;
-	
-	if (LoopingSoundComponent)
-	{
-		LoopingSoundComponent->Stop();
-	}
-	
-	// 播放击中声音
-	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 
-	// 生成击中特效
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+	if (!bHit)
+	{
+		if (LoopingSoundComponent)
+		{
+			LoopingSoundComponent->Stop();
+		}
+	
+		// 播放击中声音
+		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+
+		// 生成击中特效
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+	}
 	
 	if (HasAuthority())
 	{
