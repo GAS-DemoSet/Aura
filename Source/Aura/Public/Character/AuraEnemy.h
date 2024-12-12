@@ -9,7 +9,9 @@
 #include "UI/WidgetController/OverlapWidgetController.h"
 #include "AuraEnemy.generated.h"
 
+class AAuraAIController;
 class UWidgetComponent;
+class UBehaviorTree;
 /**
  * 
  */
@@ -25,6 +27,12 @@ public:
 	virtual int32 GetPlayerLevel() const override;
 	virtual void Die() override;
 	//~ End ICombatInterface
+
+	//~ Begin APawn Interface
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void UnPossessed() override;
+	// virtual void OnRep_PlayerState() override;
+	//~ End APawn Interface
 
 	/** 当前是否为被打击状态 */
 	bool IsHitReacting() const { return bHitReacting; }
@@ -84,4 +92,10 @@ protected:
 	/** 判定死亡后存留时间 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float LifeSpan = 5.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<AAuraAIController> AuraAIController;
 };
