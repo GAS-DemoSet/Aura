@@ -21,6 +21,13 @@ AAuraEnemy::AAuraEnemy()
 	AuraAbilitySystemComponent->SetIsReplicated(true);
 	AuraAbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
+
 	// 构建 AS 属性集
 	AuraAttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 

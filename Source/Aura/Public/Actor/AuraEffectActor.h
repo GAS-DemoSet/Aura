@@ -49,7 +49,10 @@ protected:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appleid Effects")
-	bool bDestroyOnEffectRemoval = false;
+	bool bDestroyOnEffectApplication = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appleid Effects")
+	bool bApplyEffectsToEnemies = false;
 
 	/** 效果等级 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appleid Effects")
