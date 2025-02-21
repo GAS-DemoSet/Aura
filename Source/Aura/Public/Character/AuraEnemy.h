@@ -53,7 +53,7 @@ protected:
 private:
 	void InitAndBindAttributeChanged();
 
-	/** 当存在 HitReact 标签时调用 */
+	/** 当存在 Effect_HitReact 标签时调用 */
 	void EventOnHitReactTagChanged(const FGameplayTag GameplayTag, int32 NewCount);
 
 public:

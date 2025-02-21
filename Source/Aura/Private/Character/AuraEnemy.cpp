@@ -6,6 +6,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AI/AuraAIController.h"
+#include "AI/AuraEnemyBlackboardParamName.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/WidgetComponent.h"
@@ -91,6 +92,9 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 
 	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	AuraAIController->RunBehaviorTree(BehaviorTree);
+
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FAuraEnemyBlackboardParamName::HitReacting, false);
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FAuraEnemyBlackboardParamName::RangedAttacker, CharacterClass != ECharacterClass::ECC_Warrior);
 }
 
 void AAuraEnemy::UnPossessed()
@@ -137,7 +141,7 @@ void AAuraEnemy::InitAndBindAttributeChanged()
 			}
 		);
 
-		/** 注册 GameplayTags 事件，当 GameplayTag 增加或移除时通知 */
+		/** 注册 GameplayTags 事件，当 GameplayTag 增加或移除时通知, Effect_HitReact 标签增加或移除时调用 */
 		AuraAbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get()->Effect_HitReact).AddUObject(this, &AAuraEnemy::EventOnHitReactTagChanged);
 
 		OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
@@ -150,4 +154,6 @@ void AAuraEnemy::EventOnHitReactTagChanged(const FGameplayTag GameplayTag, int32
 	bHitReacting = NewCount > 0;
 
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FAuraEnemyBlackboardParamName::HitReacting, bHitReacting);
 }
