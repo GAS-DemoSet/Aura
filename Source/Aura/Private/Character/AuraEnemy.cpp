@@ -50,6 +50,16 @@ void AAuraEnemy::UnHighLightActor()
 	GetWeaponMesh()->SetRenderCustomDepth(false);
 }
 
+void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* AAuraEnemy::GetCombatTarget_Implementation() const
+{
+	return CombatTarget.Get();
+}
+
 void AAuraEnemy::InitAbilityActorInfo()
 {
 	Super::InitAbilityActorInfo();

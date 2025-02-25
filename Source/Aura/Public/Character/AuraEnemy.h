@@ -41,6 +41,8 @@ protected:
 	//~ Begin IEnemyInterface
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() const override;
 	//~ End IEnemyInterface
 
 	//~ Begin AAuraCharacterBase Interface
@@ -98,4 +100,8 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<AAuraAIController> AuraAIController;
+
+	/** 攻击目标 */
+	UPROPERTY(BlueprintReadWrite, Category = "Combat")
+	TWeakObjectPtr<AActor> CombatTarget;
 };
