@@ -87,15 +87,15 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")
 	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
 
-	/** AS 参数默认属性值 */
+	/** AS 参数默认属性值（初始化使用） 主要属性 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
 
-	/** AS 参数默认属性值 */
+	/** AS 参数默认属性值（初始化使用） 次要属性 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
 
-	/** AS 参数默认属性值 */
+	/** AS 参数默认属性值（初始化使用） 重要属性 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 

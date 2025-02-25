@@ -114,7 +114,7 @@ void AAuraEnemy::BeginPlay()
 
 	if (HasAuthority())
 	{
-		UAuraAbilitySystemLibrary::GiveStartupAbility(this, AuraAbilitySystemComponent);
+		UAuraAbilitySystemLibrary::GiveStartupAbility(this, CharacterClass, AuraAbilitySystemComponent);
 	}
 }
 

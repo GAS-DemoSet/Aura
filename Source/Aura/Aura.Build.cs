@@ -26,6 +26,7 @@ public class Aura : ModuleRules
 			"NavigationSystem",
 			"Niagara",
 			"AIModule",
+			"DeveloperSettings",
 		});
 
 		// Uncomment if you are using Slate UI

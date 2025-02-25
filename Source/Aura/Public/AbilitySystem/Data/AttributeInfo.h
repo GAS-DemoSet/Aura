@@ -21,6 +21,7 @@ struct FAuraAttributeInfo
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText AttributeDescription = FText();
 
+	/** 该技能标签所携带的值 */
 	UPROPERTY(BlueprintReadOnly)
 	float AttributeValue = 0.f;
 };

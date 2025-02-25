@@ -49,6 +49,7 @@ public:
 	/** Maximum amount of Mana obtainable（次要属性：最大法力值） */
 	FGameplayTag Attributes_Secondary_MaxMana;
 
+	
 	/*
 	 * Input Tags
 	 */
@@ -63,6 +64,7 @@ public:
 	FGameplayTag InputTag_Passive_1;
 	FGameplayTag InputTag_Passive_2;
 
+	
 	/*
 	 * Damage Types
 	 */
@@ -76,6 +78,7 @@ public:
 	/** Physical Damage Type（物理伤害） */
 	FGameplayTag Damage_Physical;
 
+	
 	/**
 	 * 次要属性：伤害抵抗标签
 	 */
@@ -88,14 +91,22 @@ public:
 	/** 物理抵抗 */
 	FGameplayTag Attributes_Resistance_Physical;
 
+	
 	/** 伤害类型集合 */
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 	
 	/*
 	 * Ability
 	 */
+	/** 击中效果 */
 	FGameplayTag Effect_HitReact;
 
+	/**
+	 * Attack
+	 */
+	/** 技能攻击 */
+	FGameplayTag Abilities_Attack;
+	
 private:
 	static TSharedPtr<FAuraGameplayTags> GameplayTags;
 };

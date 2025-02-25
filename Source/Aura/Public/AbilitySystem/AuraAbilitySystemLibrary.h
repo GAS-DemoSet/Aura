@@ -31,7 +31,7 @@ public:
 
 	/** 注册怪物技能集合 */
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults", meta=(WorldContext="WorldContextObject", UnsafeDuringActorConstruction="true"))
-	static void GiveStartupAbility(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+	static void GiveStartupAbility(const UObject* WorldContextObject, ECharacterClass CharacterClass, UAbilitySystemComponent* ASC);
 
 	/** 获取怪物角色类型数据 */
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults", meta=(WorldContext="WorldContextObject", UnsafeDuringActorConstruction="true"))

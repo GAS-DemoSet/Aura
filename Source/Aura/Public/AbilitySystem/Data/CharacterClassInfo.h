@@ -27,8 +27,14 @@ struct FCharacterClassDefaultInfo
 {
 	GENERATED_BODY()
 
+	/** 对应 */
 	UPROPERTY(EditDefaultsOnly, Category = "Class Default")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
+
+	/** 角色技能集合 */
+	UPROPERTY(EditDefaultsOnly, Category = "Class Default")
+	TArray<TSubclassOf<UAuraGameplayAbility>> StartupAbility;
+
 };
 
 /**

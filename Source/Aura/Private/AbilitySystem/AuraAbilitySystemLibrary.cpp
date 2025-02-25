@@ -12,6 +12,7 @@
 #include "UI/HUD/AuraHUD.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
+#include "Interface/CombatInterface.h"
 
 UOverlapWidgetController* UAuraAbilitySystemLibrary::GetOverlapWidgetController(const UObject* WorldContextObject)
 {
@@ -78,7 +79,7 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 	}
 }
 
-void UAuraAbilitySystemLibrary::GiveStartupAbility(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+void UAuraAbilitySystemLibrary::GiveStartupAbility(const UObject* WorldContextObject, ECharacterClass CharacterClass, UAbilitySystemComponent* ASC)
 {
 	UCharacterClassInfo* ClassInfo = GetCharacterClassInfo(WorldContextObject);
 	if (ClassInfo && ASC)
@@ -87,6 +88,17 @@ void UAuraAbilitySystemLibrary::GiveStartupAbility(const UObject* WorldContextOb
 		{
 			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Iter, 1);
 			ASC->GiveAbility(AbilitySpec);
+		}
+
+		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor()))
+		{
+			// 在此处注册不同类型角色的不同技能
+			const FCharacterClassDefaultInfo& DefaultInfo = ClassInfo->FindClassDefaultInfo(CharacterClass);
+			for (const auto& Iter : DefaultInfo.StartupAbility)
+			{
+				FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Iter, CombatInterface->GetPlayerLevel());
+				ASC->GiveAbility(AbilitySpec);
+			}
 		}
 	}
 }
