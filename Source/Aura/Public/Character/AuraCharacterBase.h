@@ -60,7 +60,7 @@ protected:
 	//~ Begin EndInterface
 
 	//~ Begin ICombatInterface
-	virtual FVector GetCombatSocketLocation() const override;
+	virtual FVector GetCombatSocketLocation_Implementation() const override;
 	//~ End ICombatInterface
 
 	UFUNCTION(NetMulticast, Reliable)
@@ -75,7 +75,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
-	/**  */
+	/** 攻击插槽，这个插槽在武器上设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	FName WeaponTipSocketName = NAME_None;
 
