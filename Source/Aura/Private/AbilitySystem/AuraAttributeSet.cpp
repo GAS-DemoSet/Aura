@@ -280,9 +280,14 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& EffectProp, fl
 	UE_LOG(AuraLog, Warning, TEXT("UAuraAttributeSet::ShowFloatingText:: %f-- %i"), Value, static_cast<int32>(EffectProp.SourceCharacter->GetLocalRole()));
 	if (EffectProp.SourceCharacter && EffectProp.SourceCharacter != EffectProp.TargetCharacter)
 	{
-		if (AAuraPlayerController* AuraPC = EffectProp.SourceCharacter->GetController<AAuraPlayerController>())
+		if (AAuraPlayerController* SourceAuraPC = EffectProp.SourceCharacter->GetController<AAuraPlayerController>())
 		{
-			AuraPC->ShowDamageNumber(Value, EffectProp.TargetCharacter, bBlockHit, bCriticalHit);
+			SourceAuraPC->ShowDamageNumber(Value, EffectProp.TargetCharacter, bBlockHit, bCriticalHit);
+		}
+		else if (AAuraPlayerController* TargetAuraPC = EffectProp.TargetCharacter->GetController<AAuraPlayerController>())
+		{
+			TargetAuraPC->ShowDamageNumber(Value, EffectProp.TargetCharacter, bBlockHit, bCriticalHit);
+			return;
 		}
 	}
 }
