@@ -52,4 +52,7 @@ public:
 	/** 设置攻击暴击 */
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static void SetIsCriticalHit(UPARAM(Ref)FGameplayEffectContextHandle& EffectContextHandle, bool bNewCriticalHit);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMachanics")
+	static void GetLivePlayerWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutLivePlayer, const TArray<AActor*> IgnoreActor, float Radius, const FVector& SphereOrigin);
 };

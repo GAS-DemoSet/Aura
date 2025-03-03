@@ -39,4 +39,11 @@ public:
 
 	/** 死亡接口 */
 	virtual void Die() = 0;
+
+	/** 是否死亡 */
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool IsDead() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	AActor* GetAvatar();
 };

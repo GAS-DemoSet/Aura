@@ -48,6 +48,24 @@ void AAuraCharacterBase::Die()
 	EventHandleDeath_Multicast();
 }
 
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation() const
+{
+	check(Weapon != nullptr)
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
+bool AAuraCharacterBase::IsDead_Implementation() const
+{
+	// return ICombatInterface::IsDead_Implementation();
+	return bDead;
+}
+
+AActor* AAuraCharacterBase::GetAvatar_Implementation()
+{
+	// return ICombatInterface::GetAvatar_Implementation();
+	return this;
+}
+
 UAuraAttributeSet* AAuraCharacterBase::GetAuraAttributeSet() const
 {
 	return AuraAttributeSet;
@@ -101,12 +119,6 @@ void AAuraCharacterBase::BeginPlay()
 	
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation() const
-{
-	check(Weapon != nullptr)
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
-}
-
 void AAuraCharacterBase::Dissolve()
 {
 	UMaterialInstanceDynamic* DynamicMatIns = nullptr;
@@ -139,4 +151,6 @@ void AAuraCharacterBase::EventHandleDeath_Multicast_Implementation()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::PhysicsOnly);
 
 	Dissolve();
+
+	bDead = false;
 }

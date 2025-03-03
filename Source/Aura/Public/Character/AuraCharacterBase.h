@@ -38,6 +38,9 @@ public:
 	//~ Begin ICombatInterface
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die() override;
+	virtual FVector GetCombatSocketLocation_Implementation() const override;
+    virtual bool IsDead_Implementation() const override;
+    virtual AActor* GetAvatar_Implementation() override;
 	//~ End ICombatInterface
 	
 	UAuraAttributeSet* GetAuraAttributeSet() const;
@@ -59,10 +62,6 @@ protected:
 	virtual void BeginPlay() override;
 	//~ Begin EndInterface
 
-	//~ Begin ICombatInterface
-	virtual FVector GetCombatSocketLocation_Implementation() const override;
-	//~ End ICombatInterface
-
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void EventHandleDeath_Multicast();
 
@@ -71,6 +70,10 @@ protected:
 	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMatIns, UMaterialInstanceDynamic* WeaponDynamicMatIns);
 	
 protected:
+	/** 已死亡 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	bool bDead;
+	
 	/** 武器模型 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;

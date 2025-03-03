@@ -146,3 +146,32 @@ void UAuraAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& E
 		AuraGameplayEffectContext->SetIsCriticalHit(bNewCriticalHit);
 	}
 }
+
+void UAuraAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* WorldContextObject,
+	TArray<AActor*>& OutLivePlayer, const TArray<AActor*> IgnoreActor, float Radius, const FVector& SphereOrigin)
+{
+	// UGameplayStatics::ApplyRadialDamageWithFalloff();
+	FCollisionQueryParams SphereParams;
+
+	SphereParams.AddIgnoredActors(IgnoreActor);
+
+	// query scene to see what we hit
+	TArray<FOverlapResult> Overlaps;
+	if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
+
+		for (const auto& Iter : Overlaps)
+		{
+			if (Iter.GetActor()->Implements<UCombatInterface>())
+			{
+				// 活着得玩家
+				if (!ICombatInterface::Execute_IsDead(Iter.GetActor()))
+				{
+					// 添加半径内活着得玩家
+					OutLivePlayer.AddUnique(Iter.GetActor());
+				}
+			}
+		}
+	}
+}
