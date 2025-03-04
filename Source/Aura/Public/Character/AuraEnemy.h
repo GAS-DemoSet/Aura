@@ -88,7 +88,7 @@ protected:
 	bool bHitReacting = false;
 
 	/** 基础行走速度 */
-	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float BaseWalkSpeed = 250.f;
 	
 	/** 判定死亡后存留时间 */

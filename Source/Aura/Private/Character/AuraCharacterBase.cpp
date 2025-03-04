@@ -51,22 +51,22 @@ void AAuraCharacterBase::Die()
 
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) const
 {
-	if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_Weapon))
+	if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_Weapon) && !WeaponTipSocketName.IsNone())
 	{
 		check(Weapon != nullptr)
 		return Weapon->GetSocketLocation(WeaponTipSocketName);
 	}
-	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_LeftHand))
+	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_LeftHand) && !LeftHandSocketName.IsNone())
 	{
 		check(GetMesh() != nullptr)
 		return GetMesh()->GetSocketLocation(LeftHandSocketName);
 	}
-	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_RightHand))
+	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_RightHand) && !RightHandSocketName.IsNone())
 	{
 		check(GetMesh() != nullptr)
 		return GetMesh()->GetSocketLocation(RightHandSocketName);
 	}
-	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_Tail))
+	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_Tail) && !TailSocketName.IsNone())
 	{
 		check(GetMesh() != nullptr)
 		return GetMesh()->GetSocketLocation(TailSocketName);
