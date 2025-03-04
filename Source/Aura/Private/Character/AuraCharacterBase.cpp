@@ -4,6 +4,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Log/AuraLog.h"
+#include "AuraGameplayTags.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -48,10 +49,29 @@ void AAuraCharacterBase::Die()
 	EventHandleDeath_Multicast();
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation() const
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) const
 {
-	check(Weapon != nullptr)
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_Weapon))
+	{
+		check(Weapon != nullptr)
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_LeftHand))
+	{
+		check(GetMesh() != nullptr)
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_RightHand))
+	{
+		check(GetMesh() != nullptr)
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->CombatSocket_Tail))
+	{
+		check(GetMesh() != nullptr)
+		return GetMesh()->GetSocketLocation(TailSocketName);
+	}
+	return FVector::ZeroVector;
 }
 
 bool AAuraCharacterBase::IsDead_Implementation() const

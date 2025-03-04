@@ -15,7 +15,8 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer || GetWorld() == nullptr) return;
 
-	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo());
+	// TODO:: 有空把这个插槽对应得蓝图和动画文件里得通知标签都修改了，动画资产为：AM_AbilityMontage，GA资产为：GA_FireBolt， 角色资产为：BP_AuraCharacter。
+	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), FAuraGameplayTags::Get()->CombatSocket_Weapon);
 	FRotator Rotator = (ProjectileTargetLocation - SocketLocation).Rotation();
 	// Rotator.Pitch = 0.f;
 

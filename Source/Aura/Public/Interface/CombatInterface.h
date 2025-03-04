@@ -44,7 +44,7 @@ public:
 
 	/** 获取玩家攻击插槽位置 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	FVector GetCombatSocketLocation() const;
+	FVector GetCombatSocketLocation(const FGameplayTag& MontageTag) const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateFacingTarget(const FVector& TargetLoc);

@@ -38,7 +38,7 @@ public:
 	//~ Begin ICombatInterface
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die() override;
-	virtual FVector GetCombatSocketLocation_Implementation() const override;
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) const override;
     virtual bool IsDead_Implementation() const override;
     virtual AActor* GetAvatar_Implementation() override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
@@ -82,6 +82,18 @@ protected:
 	/** 攻击插槽，这个插槽在武器上设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	FName WeaponTipSocketName = NAME_None;
+
+	/** 攻击插槽，这个插槽在角色左手设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	FName LeftHandSocketName = NAME_None;
+
+	/** 攻击插槽，这个插槽在角色右手设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	FName RightHandSocketName = NAME_None;
+
+	/** 攻击插槽，这个插槽在角色尾巴设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	FName TailSocketName = NAME_None;
 
 	/** ASC */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Game|Ability")
