@@ -106,6 +106,14 @@ public:
 	 */
 	/** 技能攻击 */
 	FGameplayTag Abilities_Attack;
+
+	/**
+	 * 攻击插槽，用来区分不用怪物得攻击方式
+	 */
+	FGameplayTag CombatSocket_Weapon;
+	FGameplayTag CombatSocket_RightHand;
+	FGameplayTag CombatSocket_LeftHand;
+	FGameplayTag CombatSocket_Tail;
 	
 private:
 	static TSharedPtr<FAuraGameplayTags> GameplayTags;
