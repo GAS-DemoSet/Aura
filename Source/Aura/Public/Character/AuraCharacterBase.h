@@ -66,6 +66,7 @@ protected:
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void EventHandleDeath_Multicast();
 
+	/** 溶解效果 */
 	void Dissolve();
 	UFUNCTION(BlueprintImplementableEvent, Category="Dissolve")
 	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMatIns, UMaterialInstanceDynamic* WeaponDynamicMatIns);

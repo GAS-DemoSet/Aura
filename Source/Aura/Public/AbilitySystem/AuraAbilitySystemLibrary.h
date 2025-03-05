@@ -53,6 +53,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static void SetIsCriticalHit(UPARAM(Ref)FGameplayEffectContextHandle& EffectContextHandle, bool bNewCriticalHit);
 
+	/** 获取半径内活着得玩家 */
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMachanics")
 	static void GetLivePlayerWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutLivePlayer, const TArray<AActor*> IgnoreActor, float Radius, const FVector& SphereOrigin);
+
+	/** 判断两个角色是否为同类， 需要在玩家和怪物数据中添加对应得 Tag （Player  Enemy） */
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayMachanics")
+	static bool IsNotFriend(AActor* A, AActor* B);
 };
