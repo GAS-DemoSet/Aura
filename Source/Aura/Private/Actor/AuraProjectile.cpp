@@ -7,6 +7,7 @@
 #include "AbilitySystemComponent.h"
 #include "Aura.h"
 #include "NiagaraFunctionLibrary.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -78,6 +79,16 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 {
 	Print_Log_NetRole(GetInstigator(), Warning, *FString::Printf(TEXT("火焰投射物碰到了{%s--%s}"), *OtherActor->GetName(), *GetInstigator()->GetName()));
 	if (!GetInstigator() || GetInstigator() == OtherActor ) return;
+
+	/**
+	 * DamageEffectHandle.Data.Get()->GetContext().GetEffectCauser() 获取得对象和 GetInstigator() 是同一个
+	 * 通过 SourceASC->MakeEffectContext() 创建中直接将 ASC 得 AvatarActor 赋值给 FGameplayEffectContextHandle
+	 */ 
+	// if (!UAuraAbilitySystemLibrary::IsNotFriend(DamageEffectHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
+	if (!UAuraAbilitySystemLibrary::IsNotFriend(GetInstigator(), OtherActor))
+	{
+		return;
+	}
 
 	if (!bHit)
 	{
