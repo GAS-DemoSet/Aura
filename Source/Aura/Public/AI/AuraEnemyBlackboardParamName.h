@@ -17,4 +17,7 @@ public:
 
 	/** bRangedAttacker 是否为远程攻击者 */
 	static const FName RangedAttacker;
+
+	/** bDead 死亡 */
+	static const FName Dead;
 };
