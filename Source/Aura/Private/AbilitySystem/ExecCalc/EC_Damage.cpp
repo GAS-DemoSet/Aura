@@ -1,7 +1,7 @@
 #include "AbilitySystem/ExecCalc/EC_Damage.h"
 
 #include "AbilitySystemComponent.h"
-#include "AuraAbilityType.h"
+#include "AbilitySystem/AuraAbilityType.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"

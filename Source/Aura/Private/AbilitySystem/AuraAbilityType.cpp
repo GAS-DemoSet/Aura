@@ -1,4 +1,4 @@
-﻿#include "AuraAbilityType.h"
+﻿#include "AbilitySystem/AuraAbilityType.h"
 
 bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess)
 {

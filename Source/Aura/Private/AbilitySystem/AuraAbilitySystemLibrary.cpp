@@ -3,7 +3,7 @@
 
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
-#include "AuraAbilityType.h"
+#include "AbilitySystem/AuraAbilityType.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Game/AuraGameModeBase.h"
